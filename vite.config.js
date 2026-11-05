@@ -28,6 +28,7 @@ const structuredData = JSON.stringify({
 
 const metadata = {
   "{{SEO_TITLE}}": escapeHtml(config.seo.title),
+  "{{SEO_SITE_NAME}}": escapeHtml(config.appName),
   "{{SEO_DESCRIPTION}}": escapeHtml(config.seo.description),
   "{{SEO_ROBOTS}}": escapeHtml(config.seo.robots),
   "{{SEO_CANONICAL_URL}}": escapeHtml(config.seo.canonicalUrl),
