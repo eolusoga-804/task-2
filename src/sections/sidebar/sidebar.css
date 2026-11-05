@@ -1,0 +1,79 @@
+/* Keeps the desktop sidebar visible and turns its panels into mobile accordions. */
+.dashboard__sidebar {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.sidebar__panel {
+  min-width: 0;
+}
+
+.sidebar__summary {
+  display: none;
+}
+
+.sidebar__chevron {
+  transition: transform 160ms ease;
+}
+
+.sidebar__panel[open] .sidebar__chevron {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 759px) {
+  .sidebar__panel {
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-panel);
+  }
+
+  .sidebar__summary {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 14px;
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 800;
+    list-style: none;
+  }
+
+  .sidebar__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .sidebar__chevron {
+    color: var(--color-muted);
+  }
+
+  .sidebar__panel > .productivity,
+  .sidebar__panel > .category-filters,
+  .sidebar__panel > .recent-activity {
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .sidebar__section-heading {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar__chevron {
+    transition-duration: 0.01ms;
+  }
+}

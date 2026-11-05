@@ -1,10 +1,8 @@
-// Renders status, category, and sorting controls for the task list.
+// Renders status filters and sort controls for the task list.
 import { config } from "../../config.js";
 import { tasks } from "../../state/tasks.js";
 import {
-  getCategoryCounts,
   getTaskCounts,
-  setCategoryFilter,
   setTaskSort,
   setTaskStatus,
   taskView,
@@ -32,23 +30,6 @@ export function renderTaskControls() {
     )
     .join("");
 
-  const categoryButtons = config.categories
-    .map(
-      (category) => `
-        <button
-          class="task-controls__category"
-          type="button"
-          data-category="${category.id}"
-          aria-pressed="false"
-        >
-          <span class="task-controls__dot task-controls__dot--${category.color}" aria-hidden="true"></span>
-          <span>${category.label}</span>
-          <span class="task-controls__category-count" aria-hidden="true"></span>
-        </button>
-      `,
-    )
-    .join("");
-
   const sortOptions = config.sortOptions
     .map((option) => `<option value="${option.id}">${option.label}</option>`)
     .join("");
@@ -69,60 +50,26 @@ export function renderTaskControls() {
         <select class="task-controls__sort-select">${sortOptions}</select>
       </label>
     </div>
-
-    <div
-      class="task-controls__categories"
-      role="group"
-      aria-label="${config.taskControls.categoryLabel}"
-    >
-      <button
-        class="task-controls__category"
-        type="button"
-        data-category="all"
-        aria-pressed="true"
-      >
-        <span>${config.taskControls.allCategoriesLabel}</span>
-        <span class="task-controls__category-count" aria-hidden="true"></span>
-      </button>
-      ${categoryButtons}
-    </div>
   `;
 
-  // Updates selected states and task counts in the controls.
+  // Refreshes selected status, counts, and selected sort option.
   function updateControls() {
-    const statusCounts = getTaskCounts();
-    const categoryCounts = getCategoryCounts();
+    const counts = getTaskCounts();
 
     section.querySelectorAll(".task-controls__button").forEach((button) => {
       const status = button.dataset.status;
       button.setAttribute("aria-pressed", String(taskView.status === status));
       button.querySelector(".task-controls__count").textContent =
-        statusCounts[status] ?? 0;
-    });
-
-    section.querySelectorAll(".task-controls__category").forEach((button) => {
-      const categoryId = button.dataset.category;
-      button.setAttribute(
-        "aria-pressed",
-        String(taskView.categoryId === categoryId),
-      );
-
-      button.querySelector(".task-controls__category-count").textContent =
-        categoryId === "all" ? tasks.length : (categoryCounts[categoryId] ?? 0);
+        counts[status] ?? 0;
     });
 
     section.querySelector(".task-controls__sort-select").value = taskView.sort;
   }
 
-  // Applies a clicked status or category filter.
+  // Applies the selected status filter.
   section.addEventListener("click", (event) => {
-    const statusButton = event.target.closest(".task-controls__button");
-    const categoryButton = event.target.closest(".task-controls__category");
-
-    if (statusButton) setTaskStatus(statusButton.dataset.status);
-    if (categoryButton) {
-      setCategoryFilter(categoryButton.dataset.category);
-    }
+    const button = event.target.closest(".task-controls__button");
+    if (button) setTaskStatus(button.dataset.status);
   });
 
   // Applies the selected sort order.
@@ -132,7 +79,6 @@ export function renderTaskControls() {
       setTaskSort(event.target.value);
     });
 
-  // Keeps controls current when tasks or view settings change.
   updateControls();
   window.addEventListener(config.events.viewChanged, updateControls);
   window.addEventListener(config.events.tasksChanged, updateControls);

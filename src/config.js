@@ -93,6 +93,8 @@ export const config = {
     categoryLabel: "Filter tasks by category",
     allCategoriesLabel: "All categories",
     sortLabel: "Sort tasks",
+    categoryHeading: "Categories",
+    sidebarLabel: "Productivity and task panels",
   },
 
   sortOptions: [

@@ -45,6 +45,59 @@ button {
   padding-block: 48px;
 }
 
+/* Places the sidebar beside the task workspace on wider screens. */
+.dashboard {
+  display: grid;
+  grid-template-areas:
+    "greeting"
+    "sidebar"
+    "main";
+  gap: 12px;
+  padding-block: 18px 40px;
+}
+
+.dashboard__greeting {
+  grid-area: greeting;
+  padding-block: 6px 10px;
+}
+
+.dashboard__sidebar {
+  grid-area: sidebar;
+}
+
+.dashboard__main {
+  display: grid;
+  min-width: 0;
+  grid-area: main;
+  align-content: start;
+  gap: 10px;
+}
+
+@media (min-width: 760px) {
+  .dashboard {
+    grid-template-columns: minmax(210px, 250px) minmax(0, 1fr);
+    grid-template-areas:
+      "sidebar greeting"
+      "sidebar main";
+    align-items: start;
+    gap: 14px 22px;
+    padding-top: 22px;
+  }
+
+  .dashboard__sidebar {
+    position: sticky;
+    top: 88px;
+  }
+
+  .dashboard__greeting {
+    padding-top: 0;
+  }
+
+  .dashboard__main {
+    gap: 10px;
+  }
+}
+
 .app-shell h1 {
   margin: 0;
   font-size: clamp(1.75rem, 6vw, 2.5rem);

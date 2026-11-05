@@ -1,30 +1,44 @@
-/* Keeps status filters compact and scrollable on narrow screens. */
+/* Keeps status filters and sorting aligned in one compact control row. */
 .task-controls {
-  margin-bottom: 10px;
+  min-width: 0;
+}
+
+.task-controls__topline {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
 }
 
 .task-controls__filters {
   display: flex;
-  gap: 7px;
+  min-width: 0;
+  flex: 1;
+  gap: 5px;
   overflow-x: auto;
-  padding: 1px 1px 5px;
-  scrollbar-width: thin;
+  padding: 2px 1px 5px;
+  scrollbar-width: none;
+}
+
+.task-controls__filters::-webkit-scrollbar {
+  display: none;
 }
 
 .task-controls__button {
   display: inline-flex;
-  min-height: 38px;
+  min-height: 36px;
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  padding: 0 11px;
+  gap: 6px;
+  padding: 0 8px;
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: 9px;
   background: #0d0d17;
   color: #d5d0e9;
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
+  white-space: nowrap;
 }
 
 .task-controls__button:hover {
@@ -37,110 +51,48 @@
   color: white;
 }
 
+.task-controls__button:focus-visible,
+.task-controls__sort-select:focus-visible {
+  outline: 2px solid var(--color-accent-bright);
+  outline-offset: 2px;
+}
+
 .task-controls__count {
   display: grid;
-  min-width: 21px;
-  height: 21px;
+  min-width: 19px;
+  height: 19px;
   place-items: center;
   border-radius: 20px;
   background: rgb(255 255 255 / 12%);
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-}
-
-@media (min-width: 700px) {
-  .task-controls__button {
-    min-height: 42px;
-    padding-inline: 15px;
-    font-size: 0.8rem;
-  }
-}
-
-/* Places sorting beside status filters and categories in a compact row. */
-.task-controls__topline {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  font-size: 0.61rem;
 }
 
 .task-controls__sort {
   display: flex;
-  min-height: 38px;
+  min-height: 36px;
   flex: 0 0 auto;
   align-items: center;
-  gap: 7px;
-  padding-inline: 9px;
+  gap: 5px;
+  padding-inline: 8px;
   border: 1px solid var(--color-border);
   border-radius: 9px;
   color: var(--color-muted);
 }
 
 .task-controls__sort-select {
-  max-width: 88px;
+  width: 72px;
   border: 0;
   outline: 0;
   background: transparent;
   color: var(--color-text);
   cursor: pointer;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
 }
 
 .task-controls__sort-select option {
   background: var(--color-panel);
-}
-
-.task-controls__categories {
-  display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  padding: 3px 1px 8px;
-  scrollbar-width: thin;
-}
-
-.task-controls__category {
-  display: inline-flex;
-  min-height: 32px;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 7px;
-  padding: 0 9px;
-  border: 1px solid var(--color-border);
-  border-radius: 18px;
-  background: #0d0d17;
-  color: #d5d0e9;
-  cursor: pointer;
-  font-size: 0.7rem;
-}
-
-.task-controls__category[aria-pressed="true"] {
-  border-color: var(--color-accent);
-  background: rgb(135 60 255 / 18%);
-  color: white;
-}
-
-.task-controls__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.task-controls__dot--purple {
-  background: #a65bff;
-}
-
-.task-controls__dot--green {
-  background: #33c486;
-}
-
-.task-controls__dot--blue {
-  background: #3e9dff;
-}
-
-.task-controls__category-count {
-  color: var(--color-muted);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
+  color: var(--color-text);
 }
 
 .visually-hidden {
@@ -154,18 +106,35 @@
 }
 
 @media (min-width: 700px) {
-  .task-controls__sort {
-    min-height: 42px;
+  .task-controls__topline {
+    gap: 10px;
   }
 
-  .task-controls__sort-select {
-    max-width: 110px;
+  .task-controls__filters {
+    gap: 7px;
+  }
+
+  .task-controls__button {
+    min-height: 42px;
+    gap: 9px;
+    padding-inline: 13px;
     font-size: 0.78rem;
   }
 
-  .task-controls__category {
-    min-height: 34px;
-    padding-inline: 11px;
-    font-size: 0.74rem;
+  .task-controls__count {
+    min-width: 21px;
+    height: 21px;
+    font-size: 0.65rem;
+  }
+
+  .task-controls__sort {
+    min-height: 42px;
+    gap: 7px;
+    padding-inline: 10px;
+  }
+
+  .task-controls__sort-select {
+    width: 86px;
+    font-size: 0.76rem;
   }
 }
