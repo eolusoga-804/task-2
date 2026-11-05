@@ -57,6 +57,37 @@ export function addTask({ title, categoryId, dueDate }) {
     return null;
   }
 
-  window.dispatchEvent(new CustomEvent("tasks:changed", { detail: tasks }));
+  window.dispatchEvent(
+    new CustomEvent(config.events.tasksChanged, {
+      detail: { tasks, changedTaskId: task.id, change: "created" },
+    }),
+  );
   return task;
+}
+
+// Toggles task completion and keeps the change in localStorage.
+export function toggleTaskCompletion(id, completed) {
+  const previousTasks = tasks;
+  const taskExists = tasks.some((task) => task.id === id);
+
+  if (!taskExists) return false;
+
+  tasks = tasks.map((task) =>
+    task.id === id
+      ? { ...task, completed, updatedAt: new Date().toISOString() }
+      : task,
+  );
+
+  if (!saveToLocalStorage()) {
+    tasks = previousTasks;
+    return false;
+  }
+
+  window.dispatchEvent(
+    new CustomEvent(config.events.tasksChanged, {
+      detail: { tasks, changedTaskId: id, change: "completion" },
+    }),
+  );
+
+  return true;
 }

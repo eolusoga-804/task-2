@@ -56,4 +56,17 @@ export const config = {
     dueDateLabel: "Due date",
     submitLabel: "Add Task",
   },
+
+  events: {
+    tasksChanged: "tasks:changed",
+  },
+
+  taskList: {
+    heading: "Your tasks",
+    countLabel: "tasks",
+    noDueDate: "No due date",
+    markComplete: "Mark task complete",
+    markActive: "Mark task active",
+    emptyMessage: "No tasks yet. Add one above to get started.",
+  },
 };

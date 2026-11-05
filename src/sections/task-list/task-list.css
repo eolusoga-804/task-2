@@ -1,0 +1,144 @@
+/* Styles task rows, completion feedback, and the empty list state. */
+.task-list__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.task-list__heading {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.task-list__count {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.task-list__items {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.task-item {
+  display: grid;
+  min-height: 62px;
+  grid-template-columns: 22px auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 11px;
+  background: linear-gradient(115deg, #10101b, #0c0c16);
+}
+
+.task-item__checkbox {
+  width: 19px;
+  height: 19px;
+  margin: 0;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.task-item__category {
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.task-item__category--purple {
+  background: rgb(135 60 255 / 22%);
+  color: #c493ff;
+}
+
+.task-item__category--green {
+  background: rgb(39 185 121 / 18%);
+  color: #65dca3;
+}
+
+.task-item__category--blue {
+  background: rgb(48 139 255 / 20%);
+  color: #79b8ff;
+}
+
+.task-item__title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--color-text);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.task-item__due-date {
+  grid-column: 3;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+}
+
+.task-item--completed {
+  border-left: 2px solid #3abf83;
+}
+
+.task-item--completed .task-item__title {
+  color: var(--color-muted);
+  text-decoration: line-through;
+  text-decoration-color: #77708b;
+}
+
+.task-item--just-completed {
+  animation: task-completion 260ms ease-out;
+}
+
+.task-list__empty {
+  margin: 0;
+  padding: 22px 14px;
+  border: 1px dashed var(--color-border);
+  border-radius: 11px;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+@keyframes task-completion {
+  from {
+    background-color: rgb(58 191 131 / 25%);
+    transform: scale(0.99);
+  }
+
+  to {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .task-item--just-completed {
+    animation-duration: 0.01ms;
+  }
+}
+
+@media (min-width: 650px) {
+  .task-item {
+    grid-template-columns: 22px auto minmax(0, 1fr) minmax(100px, auto);
+    min-height: 68px;
+    gap: 12px;
+    padding: 12px 15px;
+  }
+
+  .task-item__due-date {
+    grid-column: auto;
+    font-size: 0.68rem;
+    text-align: right;
+  }
+}
