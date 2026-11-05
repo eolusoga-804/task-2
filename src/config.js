@@ -99,4 +99,16 @@ export const config = {
     { id: "due-date", label: "Due date" },
     { id: "title", label: "Title" },
   ],
+
+  productivity: {
+    heading: "Productivity",
+    progressLabel: "Task completion progress",
+    completedLabel: "tasks completed",
+    emptyMessage: "Add your first task to begin.",
+    steadyMessage: "Keep going! You’re making progress.",
+    strongMessage: "Nice work! Keep your momentum.",
+    completeMessage: "Excellent work. All tasks are complete.",
+    steadyThreshold: 40,
+    strongThreshold: 75,
+  },
 };

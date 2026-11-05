@@ -4,6 +4,7 @@ import { renderGreeting } from "./sections/greeting/greeting.js";
 import { renderTaskForm } from "./sections/task-form/task-form.js";
 import { renderTaskList } from "./sections/task-list/task-list.js";
 import { renderTaskControls } from "./sections/task-controls/task-controls.js";
+import { renderProductivity } from "./sections/productivity/productivity.js";
 import "./styles/global.css";
 
 const app = document.querySelector("#app");
@@ -14,6 +15,7 @@ dashboard.className = "app-shell";
 dashboard.id = "main-content";
 dashboard.append(
   renderGreeting(),
+  renderProductivity(),
   renderTaskForm(),
   renderTaskControls(),
   renderTaskList(),

@@ -1,0 +1,94 @@
+/* Presents a compact progress card with an accessible circular indicator. */
+.productivity {
+  padding: 15px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #11101d, #0c0c15);
+}
+
+.productivity__heading {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.productivity__content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.productivity__progress {
+  position: relative;
+  display: grid;
+  width: 96px;
+  flex: 0 0 96px;
+  aspect-ratio: 1;
+  place-items: center;
+}
+
+.productivity__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: rotate(-90deg);
+}
+
+.productivity__track,
+.productivity__value {
+  fill: none;
+  stroke-width: 9;
+}
+
+.productivity__track {
+  stroke: #292641;
+}
+
+.productivity__value {
+  stroke: var(--color-accent-bright);
+  stroke-dasharray: 251.2;
+  stroke-dashoffset: 251.2;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 360ms ease;
+}
+
+.productivity__percentage {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.productivity__details {
+  min-width: 0;
+}
+
+.productivity__count {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.productivity__message {
+  margin: 6px 0 0;
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .productivity__value {
+    transition-duration: 0.01ms;
+  }
+}
