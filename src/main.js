@@ -3,6 +3,7 @@ import { renderHeader } from "./components/header/header.js";
 import { renderGreeting } from "./sections/greeting/greeting.js";
 import { renderTaskForm } from "./sections/task-form/task-form.js";
 import { renderTaskList } from "./sections/task-list/task-list.js";
+import { renderTaskControls } from "./sections/task-controls/task-controls.js";
 import "./styles/global.css";
 
 const app = document.querySelector("#app");
@@ -11,6 +12,11 @@ const dashboard = document.createElement("main");
 
 dashboard.className = "app-shell";
 dashboard.id = "main-content";
-dashboard.append(renderGreeting(), renderTaskForm(), renderTaskList());
+dashboard.append(
+  renderGreeting(),
+  renderTaskForm(),
+  renderTaskControls(),
+  renderTaskList(),
+);
 
 app.replaceChildren(header, dashboard);

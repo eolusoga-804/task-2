@@ -1,6 +1,7 @@
 // Renders saved tasks and handles completion changes.
 import { config } from "../../config.js";
 import { tasks, toggleTaskCompletion } from "../../state/tasks.js";
+import { getVisibleTasks } from "../../state/task-view.js";
 import "./task-list.css";
 
 export function renderTaskList() {
@@ -87,20 +88,26 @@ export function renderTaskList() {
   function updateList(event) {
     const change = event?.detail?.change;
     const changedId = event?.detail?.changedTaskId;
-    const rows = tasks
+    const visibleTasks = getVisibleTasks();
+    const rows = visibleTasks
       .map((task) =>
         createTaskRow(task, change === "completion" && task.id === changedId),
       )
       .filter(Boolean);
 
     list.replaceChildren(...rows);
-    count.textContent = `${tasks.length} ${config.taskList.countLabel}`;
-    empty.hidden = tasks.length > 0;
-    list.hidden = tasks.length === 0;
+    count.textContent = `${visibleTasks.length}${config.taskList.countSeparator}${tasks.length} ${config.taskList.countLabel}`;
+    empty.textContent = tasks.length
+      ? config.taskList.noMatchMessage
+      : config.taskList.emptyMessage;
+    empty.hidden = visibleTasks.length > 0;
+    list.hidden = visibleTasks.length === 0;
   }
 
   updateList();
   window.addEventListener(config.events.tasksChanged, updateList);
+
+  window.addEventListener(config.events.viewChanged, updateList);
 
   return section;
 }

@@ -59,6 +59,8 @@ export const config = {
 
   events: {
     tasksChanged: "tasks:changed",
+    viewChanged: "tasks:view-changed",
+    searchChanged: "tasks:search-changed",
   },
 
   taskList: {
@@ -68,5 +70,7 @@ export const config = {
     markComplete: "Mark task complete",
     markActive: "Mark task active",
     emptyMessage: "No tasks yet. Add one above to get started.",
+    noMatchMessage: "No tasks match your search or status filter.",
+    countSeparator: " / ",
   },
 };

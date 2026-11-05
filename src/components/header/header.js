@@ -1,6 +1,7 @@
 // Renders the fixed app header and first-visit name setup dialog.
 import { config } from "../../config.js";
 import { getUserName, saveUserName } from "../../state/preferences.js";
+import { setTaskSearch } from "../../state/task-view.js";
 import "./header.css";
 
 export function renderHeader() {
@@ -57,6 +58,9 @@ export function renderHeader() {
   const dialog = header.querySelector(".name-dialog");
   const nameInput = header.querySelector(".name-dialog__input");
   const searchInput = header.querySelector(".app-header__search-input");
+
+  // Shares the header search text with the task list filter.
+  searchInput.addEventListener("input", () => setTaskSearch(searchInput.value));
 
   // Updates the profile initials and displayed first name.
   function updateProfile(name) {

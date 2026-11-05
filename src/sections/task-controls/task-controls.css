@@ -1,0 +1,57 @@
+/* Keeps status filters compact and scrollable on narrow screens. */
+.task-controls {
+  margin-bottom: 10px;
+}
+
+.task-controls__filters {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 1px 1px 5px;
+  scrollbar-width: thin;
+}
+
+.task-controls__button {
+  display: inline-flex;
+  min-height: 38px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 11px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: #0d0d17;
+  color: #d5d0e9;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.task-controls__button:hover {
+  border-color: #574276;
+}
+
+.task-controls__button[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  background: linear-gradient(110deg, #8534ed, #6125c6);
+  color: white;
+}
+
+.task-controls__count {
+  display: grid;
+  min-width: 21px;
+  height: 21px;
+  place-items: center;
+  border-radius: 20px;
+  background: rgb(255 255 255 / 12%);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+}
+
+@media (min-width: 700px) {
+  .task-controls__button {
+    min-height: 42px;
+    padding-inline: 15px;
+    font-size: 0.8rem;
+  }
+}
