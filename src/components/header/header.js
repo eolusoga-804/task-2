@@ -86,6 +86,8 @@ export function renderHeader() {
     if (name) {
       updateProfile(name);
       dialog.close();
+
+      window.dispatchEvent(new CustomEvent(config.events.userNameSaved));
     }
   });
 

@@ -1,0 +1,22 @@
+/* Separates the small developer credit from the task workspace. */
+.app-footer {
+  display: flex;
+  width: min(100% - 32px, 1140px);
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 0 auto;
+  padding: 14px 0 20px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-size: 0.68rem;
+}
+
+.app-footer__credit {
+  margin: 0;
+}
+
+.app-footer__name {
+  color: #c9a6ff;
+  font-weight: 700;
+}

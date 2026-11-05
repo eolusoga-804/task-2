@@ -65,6 +65,7 @@ export const config = {
     viewChanged: "tasks:view-changed",
     searchChanged: "tasks:search-changed",
     activityChanged: "tasks:activity-changed",
+    userNameSaved: "tasks:user-name-saved",
   },
 
   taskList: {
@@ -128,5 +129,21 @@ export const config = {
       updated: { label: "Updated task", icon: "fi-rr-pencil" },
       deleted: { label: "Deleted task", icon: "fi-rr-trash" },
     },
+  },
+
+  installPrompt: {
+    storageKey: "tasks-manager-install-prompt-seen",
+    heading: "Install Tasks Manager",
+    description: "Get quick access and use your task manager offline.",
+    installLabel: "Install",
+    guideLabel: "How to install",
+    closeLabel: "Not now",
+    instructions:
+      "Open your browser menu and choose Install app or Add to Home Screen.",
+  },
+
+  footer: {
+    credit: "Built with focus by",
+    version: "Tasks Manager",
   },
 };
