@@ -23,6 +23,27 @@
   box-sizing: border-box;
 }
 
+/* Makes the main workspace reachable without tabbing through the header. */
+.skip-link {
+  position: fixed;
+  z-index: 30;
+  top: 8px;
+  left: 8px;
+  padding: 10px 12px;
+  transform: translateY(-150%);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-panel);
+  color: var(--color-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 body {
   min-width: 320px;
   min-height: 100vh;

@@ -1,5 +1,6 @@
 // Caches the app shell and same-origin assets for offline reopening.
 const CACHE_NAME = "tasks-manager-shell-v1";
+const CACHE_PREFIX = "tasks-manager-";
 const APP_SHELL = [
   "/",
   "/manifest.webmanifest",
@@ -22,7 +23,7 @@ self.addEventListener("activate", (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            .filter((key) => key !== CACHE_NAME)
+            .filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
             .map((key) => caches.delete(key)),
         ),
       ),
@@ -34,7 +35,9 @@ self.addEventListener("fetch", (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  if (request.method !== "GET" || url.origin !== self.location.origin) return;
+  if (request.method !== "GET" || url.origin !== self.location.origin) {
+    return;
+  }
 
   if (request.mode === "navigate") {
     event.respondWith(

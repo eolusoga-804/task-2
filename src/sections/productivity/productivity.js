@@ -65,7 +65,7 @@ export function renderProductivity() {
     } else if (percent >= config.productivity.steadyThreshold) {
       message.textContent = config.productivity.steadyMessage;
     } else {
-      message.textContent = config.productivity.emptyMessage;
+      message.textContent = config.productivity.steadyMessage;
     }
   }
 
