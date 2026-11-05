@@ -94,7 +94,7 @@ button {
   gap: 10px;
 }
 
-@media (min-width: 760px) {
+@media (min-width: 880px) {
   .dashboard {
     grid-template-columns: minmax(210px, 250px) minmax(0, 1fr);
     grid-template-areas:

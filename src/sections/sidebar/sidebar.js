@@ -26,7 +26,7 @@ export function renderSidebar() {
     const chevron = document.createElement("i");
 
     details.className = "sidebar__panel";
-    details.open = window.matchMedia("(min-width: 760px)").matches;
+    details.open = window.matchMedia("(min-width: 880px)").matches;
 
     summary.className = "sidebar__summary";
     label.className = "sidebar__summary-label";
