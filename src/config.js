@@ -23,4 +23,14 @@ export const config = {
     installPrompt:
       "Install Tasks Manager for quick access and offline support.",
   },
+
+  header: {
+    searchLabel: "Search tasks",
+    searchPlaceholder: "Search your tasks",
+    searchShortcut: "K",
+    nameLabel: "Your first name",
+    namePlaceholder: "Enter your first name",
+    saveName: "Continue",
+    profileLabel: "Current user",
+  },
 };
