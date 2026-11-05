@@ -33,4 +33,14 @@ export const config = {
     saveName: "Continue",
     profileLabel: "Current user",
   },
+
+  locale: "en-US",
+
+  greetings: {
+    morning: "Good morning",
+    afternoon: "Good afternoon",
+    evening: "Good evening",
+    fallbackName: "there",
+    dateLabel: "Today",
+  },
 };
