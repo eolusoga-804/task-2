@@ -26,6 +26,9 @@ export const config = {
     taskSaveError:
       "This browser could not save the task. Check localStorage settings.",
     taskTitleRequired: "Enter a task title.",
+    taskUpdated: "Task updated and saved.",
+    taskDeleted: "Task deleted.",
+    taskUpdateError: "This browser could not save your changes.",
   },
 
   header: {
@@ -72,5 +75,15 @@ export const config = {
     emptyMessage: "No tasks yet. Add one above to get started.",
     noMatchMessage: "No tasks match your search or status filter.",
     countSeparator: " / ",
+  },
+
+  taskActions: {
+    edit: "Edit task",
+    delete: "Delete task",
+    editHeading: "Edit task",
+    deleteHeading: "Delete this task?",
+    deleteConfirm: "Delete task",
+    save: "Save changes",
+    cancel: "Cancel",
   },
 };

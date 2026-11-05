@@ -91,3 +91,64 @@ export function toggleTaskCompletion(id, completed) {
 
   return true;
 }
+
+// Updates editable task fields and persists the result.
+export function updateTask(id, changes) {
+  const previousTasks = tasks;
+  const existingTask = tasks.find((task) => task.id === id);
+  if (!existingTask) return false;
+
+  const title = changes.title.trim();
+  const validCategory = config.categories.some(
+    (category) => category.id === changes.categoryId,
+  );
+
+  if (!title || !validCategory) return false;
+
+  tasks = tasks.map((task) =>
+    task.id === id
+      ? {
+          ...task,
+          title,
+          categoryId: changes.categoryId,
+          dueDate: changes.dueDate || "",
+          updatedAt: new Date().toISOString(),
+        }
+      : task,
+  );
+
+  if (!saveToLocalStorage()) {
+    tasks = previousTasks;
+    return false;
+  }
+
+  window.dispatchEvent(
+    new CustomEvent(config.events.tasksChanged, {
+      detail: { tasks, changedTaskId: id, change: "updated" },
+    }),
+  );
+
+  return true;
+}
+
+// Removes a task and persists the updated collection.
+export function deleteTask(id) {
+  const previousTasks = tasks;
+  const taskExists = tasks.some((task) => task.id === id);
+  if (!taskExists) return false;
+
+  tasks = tasks.filter((task) => task.id !== id);
+
+  if (!saveToLocalStorage()) {
+    tasks = previousTasks;
+    return false;
+  }
+
+  window.dispatchEvent(
+    new CustomEvent(config.events.tasksChanged, {
+      detail: { tasks, changedTaskId: id, change: "deleted" },
+    }),
+  );
+
+  return true;
+}
