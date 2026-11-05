@@ -8,7 +8,8 @@ export const config = {
   seo: {
     canonicalUrl: "https://task-2-xi-red.vercel.app/",
     title: "Tasks Manager | Focus on what matters",
-    description: "Organize work, personal, and study tasks in one place.",
+    description:
+      "Plan work, personal, and study tasks in one place. Set due dates, track completed work, and organize your day with a simple productivity app that saves tasks in your browser.",
     robots: "index,follow",
     openGraphLocale: "en_US",
     socialPreviewPath: "/assets/social-preview.png",

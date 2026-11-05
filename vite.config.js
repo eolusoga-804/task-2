@@ -19,6 +19,10 @@ const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "WebApplication",
   name: config.appName,
+  author: {
+    "@type": "Person",
+    name: config.developer,
+  },
   applicationCategory: "ProductivityApplication",
   operatingSystem: "Any",
   description: config.seo.description,
