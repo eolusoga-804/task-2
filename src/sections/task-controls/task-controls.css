@@ -55,3 +55,117 @@
     font-size: 0.8rem;
   }
 }
+
+/* Places sorting beside status filters and categories in a compact row. */
+.task-controls__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.task-controls__sort {
+  display: flex;
+  min-height: 38px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+  padding-inline: 9px;
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  color: var(--color-muted);
+}
+
+.task-controls__sort-select {
+  max-width: 88px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 0.72rem;
+}
+
+.task-controls__sort-select option {
+  background: var(--color-panel);
+}
+
+.task-controls__categories {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 3px 1px 8px;
+  scrollbar-width: thin;
+}
+
+.task-controls__category {
+  display: inline-flex;
+  min-height: 32px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+  padding: 0 9px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: #0d0d17;
+  color: #d5d0e9;
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
+.task-controls__category[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  background: rgb(135 60 255 / 18%);
+  color: white;
+}
+
+.task-controls__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.task-controls__dot--purple {
+  background: #a65bff;
+}
+
+.task-controls__dot--green {
+  background: #33c486;
+}
+
+.task-controls__dot--blue {
+  background: #3e9dff;
+}
+
+.task-controls__category-count {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@media (min-width: 700px) {
+  .task-controls__sort {
+    min-height: 42px;
+  }
+
+  .task-controls__sort-select {
+    max-width: 110px;
+    font-size: 0.78rem;
+  }
+
+  .task-controls__category {
+    min-height: 34px;
+    padding-inline: 11px;
+    font-size: 0.74rem;
+  }
+}

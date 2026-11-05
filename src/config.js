@@ -86,4 +86,17 @@ export const config = {
     save: "Save changes",
     cancel: "Cancel",
   },
+
+  taskControls: {
+    statusLabel: "Filter tasks by status",
+    categoryLabel: "Filter tasks by category",
+    allCategoriesLabel: "All categories",
+    sortLabel: "Sort tasks",
+  },
+
+  sortOptions: [
+    { id: "newest", label: "Newest" },
+    { id: "due-date", label: "Due date" },
+    { id: "title", label: "Title" },
+  ],
 };
