@@ -1,8 +1,10 @@
-// Loads, saves, and creates task records in browser localStorage.
+// Loads, saves, and updates tasks while recording each successful action.
 import { config } from "../config.js";
+import { recordActivity } from "./activity.js";
 
 export let tasks = loadFromLocalStorage();
 
+// Loads valid task records from localStorage.
 export function loadFromLocalStorage() {
   try {
     const saved = localStorage.getItem(config.storageKey);
@@ -23,6 +25,7 @@ export function loadFromLocalStorage() {
   }
 }
 
+// Saves the current task collection and reports storage success.
 export function saveToLocalStorage() {
   try {
     localStorage.setItem(config.storageKey, JSON.stringify(tasks));
@@ -32,40 +35,46 @@ export function saveToLocalStorage() {
   }
 }
 
+// Creates and persists a task in the selected category.
 export function addTask({ title, categoryId, dueDate }) {
-  const cleanTitle = title.trim();
+  const cleanTitle = typeof title === "string" ? title.trim() : "";
   const validCategory = config.categories.some(
     (category) => category.id === categoryId,
   );
 
   if (!cleanTitle || !validCategory) return null;
 
+  const createdAt = new Date().toISOString();
   const task = {
     id: crypto.randomUUID(),
     title: cleanTitle,
     categoryId,
     dueDate: dueDate || "",
     completed: false,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    createdAt,
+    updatedAt: createdAt,
   };
 
+  const previousTasks = tasks;
   tasks = [task, ...tasks];
 
   if (!saveToLocalStorage()) {
-    tasks = tasks.filter((savedTask) => savedTask.id !== task.id);
+    tasks = previousTasks;
     return null;
   }
+
+  recordActivity("created", task);
 
   window.dispatchEvent(
     new CustomEvent(config.events.tasksChanged, {
       detail: { tasks, changedTaskId: task.id, change: "created" },
     }),
   );
+
   return task;
 }
 
-// Toggles task completion and keeps the change in localStorage.
+// Changes a task's completion state and records the action.
 export function toggleTaskCompletion(id, completed) {
   const previousTasks = tasks;
   const taskExists = tasks.some((task) => task.id === id);
@@ -83,6 +92,9 @@ export function toggleTaskCompletion(id, completed) {
     return false;
   }
 
+  const changedTask = tasks.find((task) => task.id === id);
+  recordActivity(completed ? "completed" : "reopened", changedTask);
+
   window.dispatchEvent(
     new CustomEvent(config.events.tasksChanged, {
       detail: { tasks, changedTaskId: id, change: "completion" },
@@ -92,26 +104,25 @@ export function toggleTaskCompletion(id, completed) {
   return true;
 }
 
-// Updates editable task fields and persists the result.
+// Updates a task's title, category, or due date.
 export function updateTask(id, changes) {
   const previousTasks = tasks;
   const existingTask = tasks.find((task) => task.id === id);
-  if (!existingTask) return false;
-
-  const title = changes.title.trim();
+  const title = typeof changes?.title === "string" ? changes.title.trim() : "";
+  const categoryId = changes?.categoryId;
   const validCategory = config.categories.some(
-    (category) => category.id === changes.categoryId,
+    (category) => category.id === categoryId,
   );
 
-  if (!title || !validCategory) return false;
+  if (!existingTask || !title || !validCategory) return false;
 
   tasks = tasks.map((task) =>
     task.id === id
       ? {
           ...task,
           title,
-          categoryId: changes.categoryId,
-          dueDate: changes.dueDate || "",
+          categoryId,
+          dueDate: typeof changes.dueDate === "string" ? changes.dueDate : "",
           updatedAt: new Date().toISOString(),
         }
       : task,
@@ -122,6 +133,11 @@ export function updateTask(id, changes) {
     return false;
   }
 
+  recordActivity(
+    "updated",
+    tasks.find((task) => task.id === id),
+  );
+
   window.dispatchEvent(
     new CustomEvent(config.events.tasksChanged, {
       detail: { tasks, changedTaskId: id, change: "updated" },
@@ -131,11 +147,12 @@ export function updateTask(id, changes) {
   return true;
 }
 
-// Removes a task and persists the updated collection.
+// Deletes a task and records its title in recent activity.
 export function deleteTask(id) {
   const previousTasks = tasks;
-  const taskExists = tasks.some((task) => task.id === id);
-  if (!taskExists) return false;
+  const existingTask = tasks.find((task) => task.id === id);
+
+  if (!existingTask) return false;
 
   tasks = tasks.filter((task) => task.id !== id);
 
@@ -143,6 +160,8 @@ export function deleteTask(id) {
     tasks = previousTasks;
     return false;
   }
+
+  recordActivity("deleted", existingTask);
 
   window.dispatchEvent(
     new CustomEvent(config.events.tasksChanged, {

@@ -64,6 +64,7 @@ export const config = {
     tasksChanged: "tasks:changed",
     viewChanged: "tasks:view-changed",
     searchChanged: "tasks:search-changed",
+    activityChanged: "tasks:activity-changed",
   },
 
   taskList: {
@@ -110,5 +111,20 @@ export const config = {
     completeMessage: "Excellent work. All tasks are complete.",
     steadyThreshold: 40,
     strongThreshold: 75,
+  },
+
+  activityStorageKey: "tasks-manager-activity",
+
+  activity: {
+    heading: "Recent Activity",
+    emptyMessage: "Your task activity will appear here.",
+    maximumItems: 12,
+    actions: {
+      created: { label: "Added task", icon: "fi-rr-plus" },
+      completed: { label: "Completed", icon: "fi-rr-check" },
+      reopened: { label: "Reopened", icon: "fi-rr-undo" },
+      updated: { label: "Updated task", icon: "fi-rr-pencil" },
+      deleted: { label: "Deleted task", icon: "fi-rr-trash" },
+    },
   },
 };

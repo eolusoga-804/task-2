@@ -1,0 +1,74 @@
+/* Styles the recent activity panel and its compact timeline rows. */
+.recent-activity {
+  padding: 15px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #11101d, #0c0c15);
+}
+
+.recent-activity__heading {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.recent-activity__list {
+  display: grid;
+  gap: 11px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent-activity__item {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.recent-activity__icon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  place-items: center;
+  border: 1px solid #302a4b;
+  border-radius: 50%;
+  background: #19162a;
+  color: var(--color-accent-bright);
+  font-size: 0.8rem;
+}
+
+.recent-activity__content {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+  padding-top: 1px;
+}
+
+.recent-activity__action {
+  color: var(--color-muted);
+  font-size: 0.68rem;
+}
+
+.recent-activity__task {
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-activity__time {
+  color: #847ca1;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+}
+
+.recent-activity__empty {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}

@@ -5,6 +5,7 @@ import { renderTaskForm } from "./sections/task-form/task-form.js";
 import { renderTaskList } from "./sections/task-list/task-list.js";
 import { renderTaskControls } from "./sections/task-controls/task-controls.js";
 import { renderProductivity } from "./sections/productivity/productivity.js";
+import { renderRecentActivity } from "./sections/recent-activity/recent-activity.js";
 import "./styles/global.css";
 
 const app = document.querySelector("#app");
@@ -16,6 +17,7 @@ dashboard.id = "main-content";
 dashboard.append(
   renderGreeting(),
   renderProductivity(),
+  renderRecentActivity(),
   renderTaskForm(),
   renderTaskControls(),
   renderTaskList(),
