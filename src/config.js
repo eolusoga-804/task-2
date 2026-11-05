@@ -5,6 +5,16 @@ export const config = {
   storageKey: "tasks-manager-state",
   userNameKey: "tasks-manager-user-name",
 
+  seo: {
+    canonicalUrl: "https://task-2-xi-red.vercel.app/",
+    title: "Tasks Manager | Focus on what matters",
+    description: "Organize work, personal, and study tasks in one place.",
+    robots: "index,follow",
+    openGraphLocale: "en_US",
+    socialPreviewPath: "/assets/social-preview.png",
+    socialPreviewAlt: "Tasks Manager productivity dashboard by Emmanuel#804",
+  },
+
   categories: [
     { id: "work", label: "Work", color: "purple" },
     { id: "personal", label: "Personal", color: "green" },
