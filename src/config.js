@@ -22,6 +22,10 @@ export const config = {
     emptyTasks: "No tasks match your filters.",
     installPrompt:
       "Install Tasks Manager for quick access and offline support.",
+    taskAdded: "Task added and saved.",
+    taskSaveError:
+      "This browser could not save the task. Check localStorage settings.",
+    taskTitleRequired: "Enter a task title.",
   },
 
   header: {
@@ -42,5 +46,14 @@ export const config = {
     evening: "Good evening",
     fallbackName: "there",
     dateLabel: "Today",
+  },
+
+  taskForm: {
+    toggleLabel: "Add a task",
+    titleLabel: "Task title",
+    titlePlaceholder: "What do you need to do?",
+    categoryLabel: "Category",
+    dueDateLabel: "Due date",
+    submitLabel: "Add Task",
   },
 };

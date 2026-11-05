@@ -1,0 +1,161 @@
+/* Styles the task form as a compact row with a mobile disclosure control. */
+.task-form {
+  margin-bottom: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-panel);
+}
+
+.task-form__summary {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 9px;
+  padding: 0 14px;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 700;
+  list-style: none;
+}
+
+.task-form__summary::-webkit-details-marker {
+  display: none;
+}
+
+.task-form__summary > .fi-rr-plus {
+  color: var(--color-accent-bright);
+}
+
+.task-form__chevron {
+  margin-left: auto;
+  color: var(--color-muted);
+  transition: transform 160ms ease;
+}
+
+.task-form[open] .task-form__chevron {
+  transform: rotate(180deg);
+}
+
+.task-form__fields {
+  display: grid;
+  gap: 9px;
+  padding: 0 10px 10px;
+}
+
+.task-form__title-field,
+.task-form__category-field,
+.task-form__date-field {
+  display: flex;
+  min-width: 0;
+  min-height: 44px;
+  align-items: center;
+  gap: 9px;
+  padding-inline: 11px;
+  border: 1px solid #302b49;
+  border-radius: 9px;
+  background: #0b0b14;
+  color: var(--color-muted);
+}
+
+.task-form__title-field:focus-within,
+.task-form__category-field:focus-within,
+.task-form__date-field:focus-within {
+  border-color: var(--color-accent);
+}
+
+.task-form__title-icon,
+.task-form__date-field > .fi-rr-calendar {
+  flex: 0 0 auto;
+  color: var(--color-accent-bright);
+}
+
+.task-form__title,
+.task-form__category,
+.task-form__date {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 0.8rem;
+}
+
+.task-form__title::placeholder {
+  color: var(--color-muted);
+}
+
+.task-form__category {
+  cursor: pointer;
+}
+
+.task-form__category option {
+  background: var(--color-panel);
+  color: var(--color-text);
+}
+
+.task-form__date {
+  color-scheme: dark;
+}
+
+.task-form__submit {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 9px;
+  background: linear-gradient(110deg, #923cff, #6f28db);
+  color: white;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.task-form__submit:hover {
+  filter: brightness(1.12);
+}
+
+.task-form__feedback {
+  grid-column: 1 / -1;
+  min-height: 0;
+  margin: 0;
+  color: #c9a6ff;
+  font-size: 0.72rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@media (min-width: 700px) {
+  .task-form {
+    padding: 10px;
+  }
+
+  .task-form__summary {
+    display: none;
+  }
+
+  .task-form__fields {
+    grid-template-columns: minmax(150px, 1fr) minmax(100px, 130px) minmax(
+        125px,
+        145px
+      ) auto;
+    align-items: start;
+    padding: 0;
+  }
+
+  .task-form__submit {
+    min-width: 120px;
+    padding-inline: 13px;
+  }
+}
