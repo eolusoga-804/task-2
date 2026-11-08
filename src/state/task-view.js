@@ -87,8 +87,12 @@ export function getVisibleTasks() {
     const category = config.categories.find(
       (item) => item.id === task.categoryId,
     );
+    // Searches task titles, descriptions, and category names.
     const searchableText =
-      `${task.title} ${category?.label ?? ""}`.toLocaleLowerCase(config.locale);
+      `${task.title} ${task.description ?? ""} ${category?.label ?? ""}`.toLocaleLowerCase(
+        config.locale,
+      );
+
     const matchesSearch = searchableText.includes(taskView.search);
 
     return matchesStatus && matchesCategory && matchesSearch;

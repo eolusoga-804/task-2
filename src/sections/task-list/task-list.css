@@ -97,6 +97,23 @@
   color: #79b8ff;
 }
 
+/* Stacks the optional description beneath the task title. */
+.task-item__copy {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.task-item__description {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-muted);
+  font-size: 0.68rem;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .task-item__title {
   min-width: 0;
   overflow-wrap: anywhere;
@@ -214,7 +231,8 @@
 }
 
 .task-dialog__input,
-.task-dialog__select {
+.task-dialog__select,
+.task-dialog__input[name="description"] {
   width: 100%;
   min-height: 42px;
   padding: 0 10px;

@@ -36,6 +36,17 @@ export function renderTaskForm() {
         />
       </label>
 
+      <label class="task-form__description-field">
+        <span class="visually-hidden">${config.taskForm.descriptionLabel}</span>
+        <input
+          class="task-form__description"
+          name="description"
+          type="text"
+          maxlength="${config.taskForm.descriptionMaxLength}"
+          placeholder="${config.taskForm.descriptionPlaceholder}"
+        />
+      </label>
+
       <label class="task-form__category-field">
         <span class="visually-hidden">${config.taskForm.categoryLabel}</span>
         <select class="task-form__category" name="categoryId" required>
@@ -77,6 +88,7 @@ export function renderTaskForm() {
     const formData = new FormData(form);
     const task = addTask({
       title,
+      description: formData.get("description"),
       categoryId: formData.get("categoryId"),
       dueDate: formData.get("dueDate"),
     });

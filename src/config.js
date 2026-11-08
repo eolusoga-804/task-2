@@ -66,6 +66,10 @@ export const config = {
     toggleLabel: "Add a task",
     titleLabel: "Task title",
     titlePlaceholder: "What do you need to do?",
+    // Defines the optional description field and its maximum length.
+    descriptionLabel: "Description",
+    descriptionPlaceholder: "Add a description (optional)",
+    descriptionMaxLength: 500,
     categoryLabel: "Category",
     dueDateLabel: "Due date",
     submitLabel: "Add Task",

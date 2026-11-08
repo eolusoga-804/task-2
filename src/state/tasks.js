@@ -36,8 +36,11 @@ export function saveToLocalStorage() {
 }
 
 // Creates and persists a task in the selected category.
-export function addTask({ title, categoryId, dueDate }) {
+export function addTask({ title, description, categoryId, dueDate }) {
   const cleanTitle = typeof title === "string" ? title.trim() : "";
+  // Trims the optional description while allowing it to be empty.
+  const cleanDescription =
+    typeof description === "string" ? description.trim() : "";
   const validCategory = config.categories.some(
     (category) => category.id === categoryId,
   );
@@ -48,6 +51,7 @@ export function addTask({ title, categoryId, dueDate }) {
   const task = {
     id: crypto.randomUUID(),
     title: cleanTitle,
+    description: cleanDescription,
     categoryId,
     dueDate: dueDate || "",
     completed: false,
@@ -109,6 +113,9 @@ export function updateTask(id, changes) {
   const previousTasks = tasks;
   const existingTask = tasks.find((task) => task.id === id);
   const title = typeof changes?.title === "string" ? changes.title.trim() : "";
+  // Keeps an omitted or blank description optional when editing older tasks.
+  const description =
+    typeof changes?.description === "string" ? changes.description.trim() : "";
   const categoryId = changes?.categoryId;
   const validCategory = config.categories.some(
     (category) => category.id === categoryId,
@@ -121,6 +128,7 @@ export function updateTask(id, changes) {
       ? {
           ...task,
           title,
+          description,
           categoryId,
           dueDate: typeof changes.dueDate === "string" ? changes.dueDate : "",
           updatedAt: new Date().toISOString(),

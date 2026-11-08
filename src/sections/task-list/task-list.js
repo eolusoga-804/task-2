@@ -43,6 +43,16 @@ export function renderTaskList() {
 
         <label class="task-dialog__field">
           <span class="task-dialog__label"></span>
+          <input
+            class="task-dialog__input"
+            name="description"
+            type="text"
+            maxlength="${config.taskForm.descriptionMaxLength}"
+          />
+        </label>
+
+        <label class="task-dialog__field">
+          <span class="task-dialog__label"></span>
           <select
             class="task-dialog__select"
             name="categoryId"
@@ -132,8 +142,10 @@ export function renderTaskList() {
 
   const editLabels = editForm.querySelectorAll(".task-dialog__label");
   editLabels[0].textContent = config.taskForm.titleLabel;
-  editLabels[1].textContent = config.taskForm.categoryLabel;
-  editLabels[2].textContent = config.taskForm.dueDateLabel;
+  // Assigns configured labels to each editable task field.
+  editLabels[1].textContent = config.taskForm.descriptionLabel;
+  editLabels[2].textContent = config.taskForm.categoryLabel;
+  editLabels[3].textContent = config.taskForm.dueDateLabel;
 
   // Formats a date-only value in local time to avoid timezone date shifts.
   function formatDueDate(value) {
@@ -179,9 +191,21 @@ export function renderTaskList() {
     badge.className = `task-item__category task-item__category--${category.color}`;
     badge.textContent = category.label;
 
+    // Groups the title and optional description in the task copy area.
+    const copy = document.createElement("div");
+    copy.className = "task-item__copy";
+
     const title = document.createElement("span");
     title.className = "task-item__title";
     title.textContent = task.title;
+    copy.append(title);
+
+    if (task.description) {
+      const description = document.createElement("span");
+      description.className = "task-item__description";
+      description.textContent = task.description;
+      copy.append(description);
+    }
 
     const dueDate = document.createElement("time");
     dueDate.className = "task-item__due-date";
@@ -216,7 +240,8 @@ export function renderTaskList() {
       '<i class="fi fi-rr-trash" aria-hidden="true"></i>';
 
     actions.append(editButton, deleteButton);
-    row.append(checkbox, badge, title, dueDate, actions);
+    // Places optional description text with its task title.
+    row.append(checkbox, badge, copy, dueDate, actions);
 
     // Saves completion state and restores the checkbox if persistence fails.
     checkbox.addEventListener("change", () => {
@@ -246,6 +271,8 @@ export function renderTaskList() {
     if (actionButton.dataset.action === "edit") {
       editForm.dataset.taskId = task.id;
       editForm.elements.title.value = task.title;
+      // Loads an empty string for tasks created before descriptions existed.
+      editForm.elements.description.value = task.description ?? "";
       editForm.elements.categoryId.value = task.categoryId;
       editForm.elements.dueDate.value = task.dueDate;
       editForm.querySelector(".task-dialog__feedback").textContent = "";
@@ -267,6 +294,7 @@ export function renderTaskList() {
     const formData = new FormData(editForm);
     const saved = updateTask(editForm.dataset.taskId, {
       title: formData.get("title"),
+      description: formData.get("description"),
       categoryId: formData.get("categoryId"),
       dueDate: formData.get("dueDate"),
     });

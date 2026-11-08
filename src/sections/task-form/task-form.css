@@ -45,7 +45,8 @@
 
 .task-form__title-field,
 .task-form__category-field,
-.task-form__date-field {
+.task-form__date-field,
+.task-form__description-field {
   display: flex;
   min-width: 0;
   min-height: 44px;
@@ -60,7 +61,8 @@
 
 .task-form__title-field:focus-within,
 .task-form__category-field:focus-within,
-.task-form__date-field:focus-within {
+.task-form__date-field:focus-within,
+.task-form__description-field:focus-within {
   border-color: var(--color-accent);
 }
 
@@ -72,7 +74,8 @@
 
 .task-form__title,
 .task-form__category,
-.task-form__date {
+.task-form__date,
+.task-form__description {
   width: 100%;
   min-width: 0;
   border: 0;
@@ -82,7 +85,8 @@
   font-size: 0.8rem;
 }
 
-.task-form__title::placeholder {
+.task-form__title::placeholder,
+.task-form__description::placeholder {
   color: var(--color-muted);
 }
 
@@ -151,7 +155,8 @@
 
   .task-form__title-field,
   .task-form__submit,
-  .task-form__feedback {
+  .task-form__feedback,
+  .task-form__description-field {
     grid-column: 1 / -1;
   }
 
@@ -177,7 +182,32 @@
   }
 }
 
-@media (min-width: 700px) {
+/* Uses a stacked two-column form where five fields would be too narrow. */
+@media (min-width: 700px) and (max-width: 999px) {
+  .task-form {
+    padding: 10px;
+  }
+
+  .task-form__summary {
+    display: none;
+  }
+
+  .task-form__fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    padding: 0;
+  }
+
+  .task-form__title-field,
+  .task-form__description-field,
+  .task-form__submit,
+  .task-form__feedback {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Keeps all task fields on one row when the workspace has sufficient width. */
+@media (min-width: 1000px) {
   .task-form {
     padding: 10px;
   }
@@ -188,14 +218,14 @@
 
   .task-form__fields {
     grid-template-columns:
-      minmax(150px, 1fr) minmax(100px, 130px) minmax(125px, 145px)
-      auto;
+      minmax(120px, 1.3fr) minmax(120px, 1.4fr)
+      minmax(90px, 1fr) minmax(125px, 1.1fr) auto;
     align-items: start;
     padding: 0;
   }
 
   .task-form__submit {
-    min-width: 120px;
-    padding-inline: 13px;
+    min-width: 105px;
+    padding-inline: 12px;
   }
 }
