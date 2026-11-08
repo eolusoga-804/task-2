@@ -48,11 +48,21 @@ export function renderSidebar() {
     aside.append(details);
   });
 
-  // Reveals all sidebar content as soon as the layout changes to desktop.
+  // Remembers compact accordion states while desktop panels are expanded.
+  const compactOpenStates = panelDetails.map(() => false);
+
   desktopQuery.addEventListener("change", (event) => {
-    if (!event.matches) return;
-    panelDetails.forEach((details) => {
-      details.open = true;
+    if (event.matches) {
+      panelDetails.forEach((details, index) => {
+        compactOpenStates[index] = details.open;
+        details.open = true;
+      });
+      return;
+    }
+
+    // Restores each panel's previous compact state when returning from desktop.
+    panelDetails.forEach((details, index) => {
+      details.open = compactOpenStates[index];
     });
   });
 
