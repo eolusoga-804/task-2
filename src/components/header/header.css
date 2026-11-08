@@ -69,14 +69,22 @@
   color: var(--color-muted);
 }
 
+/* Renders the shortcut as a compact pair of platform and key labels. */
 .app-header__shortcut {
   display: none;
+  align-items: center;
+  gap: 4px;
   padding: 2px 6px;
   border: 1px solid var(--color-border);
   border-radius: 5px;
   color: var(--color-muted);
   font-family: var(--font-mono);
   font-size: 0.68rem;
+  white-space: nowrap;
+}
+
+.app-header__shortcut-modifier {
+  font-size: 0.65rem;
 }
 
 .app-header__profile {

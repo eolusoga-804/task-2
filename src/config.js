@@ -45,7 +45,12 @@ export const config = {
   header: {
     searchLabel: "Search tasks",
     searchPlaceholder: "Search your tasks",
+    // Centralizes the author prefix shown below the app name.
+    brandCaptionPrefix: "by",
     searchShortcut: "K",
+    // Names the platform-specific modifier displayed beside the search key.
+    searchShortcutMac: "⌘",
+    searchShortcutOther: "Ctrl",
     nameLabel: "Your first name",
     namePlaceholder: "Enter your first name",
     saveName: "Continue",

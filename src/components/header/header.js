@@ -11,7 +11,7 @@ export function renderHeader() {
     <div class="app-header__inner">
       <a class="app-header__brand" href="/" aria-label="${config.appName} home">
         <span class="app-header__brand-title">${config.appName}</span>
-        <span class="app-header__brand-caption">${config.developer}</span>
+        <span class="app-header__brand-caption">${config.header.brandCaptionPrefix} ${config.developer}</span>
       </a>
 
       <label class="app-header__search">
@@ -23,7 +23,10 @@ export function renderHeader() {
           placeholder="${config.header.searchPlaceholder}"
           autocomplete="off"
         />
-        <kbd class="app-header__shortcut" aria-hidden="true">${config.header.searchShortcut}</kbd>
+        <kbd class="app-header__shortcut" aria-hidden="true">
+          <span class="app-header__shortcut-modifier"></span>
+          <span>${config.header.searchShortcut}</span>
+        </kbd>
       </label>
 
       <div class="app-header__profile" aria-label="${config.header.profileLabel}">
@@ -58,6 +61,16 @@ export function renderHeader() {
   const dialog = header.querySelector(".name-dialog");
   const nameInput = header.querySelector(".name-dialog__input");
   const searchInput = header.querySelector(".app-header__search-input");
+
+  // Displays the Command symbol on Apple devices and Ctrl elsewhere.
+  const platform =
+    navigator.userAgentData?.platform ?? navigator.platform ?? "";
+  const isApplePlatform = /Mac|iPhone|iPad|iPod/i.test(platform);
+
+  header.querySelector(".app-header__shortcut-modifier").textContent =
+    isApplePlatform
+      ? config.header.searchShortcutMac
+      : config.header.searchShortcutOther;
 
   // Shares the header search text with the task list filter.
   searchInput.addEventListener("input", () => setTaskSearch(searchInput.value));
