@@ -91,12 +91,16 @@ export const config = {
     markActive: "Mark task active",
     emptyMessage: "No tasks yet. Add one above to get started.",
     noMatchMessage: "No tasks match your search or status filter.",
+    // Announces successful pointer or keyboard reordering.
+    reordered: "Task order updated.",
     countSeparator: " / ",
   },
 
   taskActions: {
     edit: "Edit task",
     delete: "Delete task",
+    // Labels the task reorder handle for assistive technology.
+    reorder: "Reorder task",
     editHeading: "Edit task",
     deleteHeading: "Delete this task?",
     deleteConfirm: "Delete task",
@@ -114,6 +118,8 @@ export const config = {
   },
 
   sortOptions: [
+    // Preserves the saved task-array order for drag-and-drop.
+    { id: "manual", label: "Manual" },
     { id: "newest", label: "Newest" },
     { id: "due-date", label: "Due date" },
     { id: "title", label: "Title" },

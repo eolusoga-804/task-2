@@ -6,7 +6,8 @@ export const taskView = {
   status: "all",
   search: "",
   categoryId: "all",
-  sort: "newest",
+  // Keeps drag-and-drop order as the initial list order after reload.
+  sort: "manual",
 };
 
 // Notifies the task list and controls when the view settings change.
@@ -97,6 +98,9 @@ export function getVisibleTasks() {
 
     return matchesStatus && matchesCategory && matchesSearch;
   });
+
+  // Leaves the filtered task array in its persisted order.
+  if (taskView.sort === "manual") return visibleTasks;
 
   return [...visibleTasks].sort((first, second) => {
     if (taskView.sort === "title") {

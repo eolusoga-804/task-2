@@ -2,11 +2,12 @@
 import { config } from "../../config.js";
 import {
   deleteTask,
+  reorderTasks,
   tasks,
   toggleTaskCompletion,
   updateTask,
 } from "../../state/tasks.js";
-import { getVisibleTasks } from "../../state/task-view.js";
+import { getVisibleTasks, setTaskSort } from "../../state/task-view.js";
 import "./task-list.css";
 
 export function renderTaskList() {
@@ -22,6 +23,8 @@ export function renderTaskList() {
 
     <p class="task-list__empty"></p>
     <ol class="task-list__items"></ol>
+
+    <p class="visually-hidden" data-reorder-status role="status" aria-live="polite"></p>
 
     <dialog
       class="task-dialog"
@@ -120,6 +123,9 @@ export function renderTaskList() {
   const count = section.querySelector(".task-list__count");
   const empty = section.querySelector(".task-list__empty");
   const list = section.querySelector(".task-list__items");
+  // Stores the task currently being dragged and the live announcement node.
+  const reorderStatus = section.querySelector("[data-reorder-status]");
+  let draggedTaskId = "";
   const editDialog = section.querySelector('[data-dialog="edit"]');
   const deleteDialog = section.querySelector('[data-dialog="delete"]');
   const editForm = section.querySelector('[data-form="edit"]');
@@ -216,6 +222,21 @@ export function renderTaskList() {
     const actions = document.createElement("div");
     actions.className = "task-item__actions";
 
+    // Provides a draggable and keyboard-accessible reorder handle.
+    const reorderButton = document.createElement("button");
+    reorderButton.className = "task-item__action task-item__drag-handle";
+    reorderButton.type = "button";
+    reorderButton.draggable = true;
+    reorderButton.dataset.action = "reorder";
+    reorderButton.dataset.taskId = task.id;
+    reorderButton.setAttribute(
+      "aria-label",
+      `${config.taskActions.reorder}: ${task.title}`,
+    );
+    reorderButton.setAttribute("aria-keyshortcuts", "ArrowUp ArrowDown");
+    reorderButton.innerHTML =
+      '<i class="fi fi-rr-grip-dots-vertical" aria-hidden="true"></i>';
+
     const editButton = document.createElement("button");
     editButton.className = "task-item__action";
     editButton.type = "button";
@@ -239,7 +260,8 @@ export function renderTaskList() {
     deleteButton.innerHTML =
       '<i class="fi fi-rr-trash" aria-hidden="true"></i>';
 
-    actions.append(editButton, deleteButton);
+    // Places the reorder handle before edit and delete actions.
+    actions.append(reorderButton, editButton, deleteButton);
     // Places optional description text with its task title.
     row.append(checkbox, badge, copy, dueDate, actions);
 
@@ -251,6 +273,124 @@ export function renderTaskList() {
 
     return row;
   }
+
+  // Removes drag and drop position highlights after a move or cancellation.
+  function clearDragStyles() {
+    list.querySelectorAll(".task-item").forEach((row) => {
+      row.classList.remove(
+        "task-item--dragging",
+        "task-item--drop-before",
+        "task-item--drop-after",
+      );
+    });
+  }
+
+  // Starts a pointer drag only from a task's reorder handle.
+  list.addEventListener("dragstart", (event) => {
+    const handle = event.target.closest('[data-action="reorder"]');
+    if (!handle) {
+      event.preventDefault();
+      return;
+    }
+
+    const row = handle.closest(".task-item");
+    draggedTaskId = row.dataset.taskId;
+    row.classList.add("task-item--dragging");
+
+    event.dataTransfer.setData("text/plain", draggedTaskId);
+    event.dataTransfer.effectAllowed = "move";
+  });
+
+  // Highlights the task position that will receive the dragged row.
+  list.addEventListener("dragover", (event) => {
+    const targetRow = event.target.closest(".task-item");
+    if (
+      !draggedTaskId ||
+      !targetRow ||
+      targetRow.dataset.taskId === draggedTaskId
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    clearDragStyles();
+
+    const midpoint =
+      targetRow.getBoundingClientRect().top +
+      targetRow.getBoundingClientRect().height / 2;
+    const insertAfter = event.clientY > midpoint;
+
+    targetRow.classList.add(
+      insertAfter ? "task-item--drop-after" : "task-item--drop-before",
+    );
+    event.dataTransfer.dropEffect = "move";
+  });
+
+  // Persists the drop position and switches the list to Manual sort.
+  list.addEventListener("drop", (event) => {
+    const targetRow = event.target.closest(".task-item");
+    if (!draggedTaskId || !targetRow) return;
+
+    event.preventDefault();
+
+    const sourceId = event.dataTransfer.getData("text/plain") || draggedTaskId;
+    const midpoint =
+      targetRow.getBoundingClientRect().top +
+      targetRow.getBoundingClientRect().height / 2;
+    const insertAfter = event.clientY > midpoint;
+    const saved = reorderTasks(sourceId, targetRow.dataset.taskId, insertAfter);
+
+    clearDragStyles();
+    draggedTaskId = "";
+
+    if (saved) {
+      setTaskSort("manual");
+      reorderStatus.textContent = config.taskList.reordered;
+    }
+  });
+
+  // Clears drag styling when the user cancels or finishes a drag.
+  list.addEventListener("dragend", () => {
+    clearDragStyles();
+    draggedTaskId = "";
+  });
+
+  // Moves the focused task up or down for keyboard-based reordering.
+  list.addEventListener("keydown", (event) => {
+    const handle = event.target.closest('[data-action="reorder"]');
+    if (!handle || !["ArrowUp", "ArrowDown"].includes(event.key)) return;
+
+    event.preventDefault();
+
+    const rows = [...list.querySelectorAll(".task-item")];
+    const currentIndex = rows.findIndex(
+      (row) => row.dataset.taskId === handle.dataset.taskId,
+    );
+    const offset = event.key === "ArrowUp" ? -1 : 1;
+    const targetRow = rows[currentIndex + offset];
+
+    if (!targetRow) return;
+
+    const moved = reorderTasks(
+      handle.dataset.taskId,
+      targetRow.dataset.taskId,
+      offset > 0,
+    );
+
+    if (!moved) return;
+
+    setTaskSort("manual");
+    reorderStatus.textContent = config.taskList.reordered;
+
+    // Returns focus to the moved task after the list refreshes.
+    requestAnimationFrame(() => {
+      const nextHandle = [
+        ...list.querySelectorAll('[data-action="reorder"]'),
+      ].find((button) => button.dataset.taskId === handle.dataset.taskId);
+
+      nextHandle?.focus();
+    });
+  });
 
   // Opens the matching task dialog and loads the selected task values.
   section.addEventListener("click", (event) => {

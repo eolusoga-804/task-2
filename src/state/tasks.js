@@ -179,3 +179,33 @@ export function deleteTask(id) {
 
   return true;
 }
+
+// Moves a task before or after another task and saves the new array order.
+export function reorderTasks(sourceId, targetId, insertAfter = false) {
+  if (!sourceId || !targetId || sourceId === targetId) return false;
+
+  const sourceIndex = tasks.findIndex((task) => task.id === sourceId);
+  const targetIndex = tasks.findIndex((task) => task.id === targetId);
+
+  if (sourceIndex < 0 || targetIndex < 0) return false;
+
+  const previousTasks = tasks;
+  const reorderedTasks = [...tasks];
+  const [movedTask] = reorderedTasks.splice(sourceIndex, 1);
+  const nextTargetIndex = reorderedTasks.findIndex(
+    (task) => task.id === targetId,
+  );
+
+  if (nextTargetIndex < 0) return false;
+
+  reorderedTasks.splice(nextTargetIndex + (insertAfter ? 1 : 0), 0, movedTask);
+
+  tasks = reorderedTasks;
+
+  if (!saveToLocalStorage()) {
+    tasks = previousTasks;
+    return false;
+  }
+
+  return true;
+}
