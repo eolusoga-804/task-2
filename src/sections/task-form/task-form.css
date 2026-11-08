@@ -187,7 +187,7 @@
   }
 }
 
-/* Uses a stacked two-column form where five fields would be too narrow. */
+/* Places the task selectors and submit button together on tablet screens. */
 @media (min-width: 700px) and (max-width: 999px) {
   .task-form {
     padding: 10px;
@@ -198,14 +198,24 @@
   }
 
   .task-form__fields {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: start;
     padding: 0;
   }
 
+  /* Keeps title and description above the selector row. */
   .task-form__title-field,
-  .task-form__description-field,
-  .task-form__submit,
+  .task-form__description-field {
+    grid-column: 1 / -1;
+  }
+
+  /* Aligns category, date, and Add Task in one tablet row. */
+  .task-form__category-field,
+  .task-form__date-field,
+  .task-form__submit {
+    grid-column: auto;
+  }
+
   .task-form__feedback {
     grid-column: 1 / -1;
   }
