@@ -10,23 +10,46 @@ export function renderSidebar() {
   aside.className = "dashboard__sidebar";
   aside.setAttribute("aria-label", config.taskControls.sidebarLabel);
 
+  // Pairs each sidebar section with its configured Flaticon icon.
   const panels = [
-    renderProductivity(),
-    renderCategoryFilters(),
-    renderRecentActivity(),
+    {
+      section: renderProductivity(),
+      icon: config.taskControls.panelIcons.productivity,
+    },
+    {
+      section: renderCategoryFilters(),
+      icon: config.taskControls.panelIcons.categories,
+    },
+    {
+      section: renderRecentActivity(),
+      icon: config.taskControls.panelIcons.recentActivity,
+    },
   ];
 
   // Tracks the desktop breakpoint and the panel disclosures it controls.
   const desktopQuery = window.matchMedia("(min-width: 880px)");
   const panelDetails = [];
 
-  // Wraps each sidebar section in a disclosure that opens by default on desktop.
-  panels.forEach((panel) => {
+  // Adds matching icons to mobile summaries and visible panel headings.
+  panels.forEach(({ section: panel, icon }) => {
     const heading = panel.querySelector("h2");
     const headingText = heading.textContent;
+
+    // Adds the panel icon to its visible heading on wider screens.
+    const sectionIcon = document.createElement("i");
+    sectionIcon.className = `fi ${icon} sidebar__section-icon`;
+    sectionIcon.setAttribute("aria-hidden", "true");
+    heading.prepend(sectionIcon);
+
     const details = document.createElement("details");
     const summary = document.createElement("summary");
     const label = document.createElement("span");
+
+    // Adds the panel icon to the collapsible heading on smaller screens.
+    const summaryIcon = document.createElement("i");
+    summaryIcon.className = `fi ${icon} sidebar__icon`;
+    summaryIcon.setAttribute("aria-hidden", "true");
+
     const chevron = document.createElement("i");
 
     details.className = "sidebar__panel";
@@ -42,7 +65,9 @@ export function renderSidebar() {
     chevron.className = "fi fi-rr-angle-small-down sidebar__chevron";
     chevron.setAttribute("aria-hidden", "true");
 
-    summary.append(label, chevron);
+    // Keeps the icon and label before the disclosure chevron.
+    summary.append(summaryIcon, label, chevron);
+
     heading.classList.add("sidebar__section-heading");
     details.append(summary, panel);
     aside.append(details);

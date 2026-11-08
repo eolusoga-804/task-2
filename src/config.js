@@ -120,6 +120,12 @@ export const config = {
     sortLabel: "Sort tasks",
     categoryHeading: "Categories",
     sidebarLabel: "Productivity and task panels",
+    // Stores the Flaticon classes used by the three sidebar panels.
+    panelIcons: {
+      productivity: "fi-rr-chart-pie",
+      categories: "fi-rr-apps",
+      recentActivity: "fi-rr-time-past",
+    },
   },
 
   sortOptions: [

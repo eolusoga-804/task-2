@@ -14,6 +14,22 @@
   display: none;
 }
 
+/* Aligns panel icons with summary labels and desktop section headings. */
+.sidebar__icon,
+.sidebar__section-icon {
+  flex: 0 0 auto;
+  color: var(--color-accent-bright);
+  font-size: 0.9rem;
+}
+
+.sidebar__section-icon {
+  margin-right: 8px;
+}
+
+.sidebar__summary-label {
+  flex: 1;
+}
+
 .sidebar__chevron {
   transition: transform 160ms ease;
 }
