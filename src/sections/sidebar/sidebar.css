@@ -96,6 +96,18 @@
   }
 }
 
+/* Hides the desktop sidebar scrollbar while keeping its content scrollable. */
+@media (min-width: 880px) {
+  .dashboard__sidebar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .dashboard__sidebar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sidebar__chevron {
     transition-duration: 0.01ms;
