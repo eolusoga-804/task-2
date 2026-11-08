@@ -16,6 +16,10 @@ export function renderSidebar() {
     renderRecentActivity(),
   ];
 
+  // Tracks the desktop breakpoint and the panel disclosures it controls.
+  const desktopQuery = window.matchMedia("(min-width: 880px)");
+  const panelDetails = [];
+
   // Wraps each sidebar section in a disclosure that opens by default on desktop.
   panels.forEach((panel) => {
     const heading = panel.querySelector("h2");
@@ -26,7 +30,10 @@ export function renderSidebar() {
     const chevron = document.createElement("i");
 
     details.className = "sidebar__panel";
-    details.open = window.matchMedia("(min-width: 880px)").matches;
+
+    // Opens sidebar content by default when the desktop layout is active.
+    details.open = desktopQuery.matches;
+    panelDetails.push(details);
 
     summary.className = "sidebar__summary";
     label.className = "sidebar__summary-label";
@@ -39,6 +46,14 @@ export function renderSidebar() {
     heading.classList.add("sidebar__section-heading");
     details.append(summary, panel);
     aside.append(details);
+  });
+
+  // Reveals all sidebar content as soon as the layout changes to desktop.
+  desktopQuery.addEventListener("change", (event) => {
+    if (!event.matches) return;
+    panelDetails.forEach((details) => {
+      details.open = true;
+    });
   });
 
   return aside;

@@ -142,7 +142,7 @@ export const config = {
   activity: {
     heading: "Recent Activity",
     emptyMessage: "Your task activity will appear here.",
-    maximumItems: 12,
+    maximumItems: 7,
     actions: {
       created: { label: "Added task", icon: "fi-rr-plus" },
       completed: { label: "Completed", icon: "fi-rr-check" },

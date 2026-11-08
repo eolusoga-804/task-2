@@ -105,9 +105,11 @@ button {
     padding-top: 22px;
   }
 
+  /* Anchors the sidebar beside the main content while the page scrolls. */
   .dashboard__sidebar {
     position: sticky;
     top: 88px;
+    align-self: start;
   }
 
   .dashboard__greeting {
