@@ -153,6 +153,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  /* Removes the decorative plus from the compact task title field. */
+  .task-form__title-icon {
+    display: none;
+  }
+
   .task-form__title-field,
   .task-form__submit,
   .task-form__feedback,
