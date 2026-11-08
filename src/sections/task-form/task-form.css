@@ -184,15 +184,6 @@
     font-size: 1rem;
     pointer-events: none;
   }
-
-  .task-form__date {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-  }
 }
 
 /* Uses a stacked two-column form where five fields would be too narrow. */
@@ -235,6 +226,12 @@
       minmax(90px, 1fr) minmax(125px, 1.1fr) auto;
     align-items: start;
     padding: 0;
+  }
+
+  /* Caps only the desktop category control at 95px. */
+  .task-form__category-field,
+  .task-form__category {
+    max-width: 95px;
   }
 
   .task-form__submit {

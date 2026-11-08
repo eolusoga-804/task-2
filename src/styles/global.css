@@ -102,7 +102,8 @@ button {
       "sidebar greeting"
       "sidebar main";
     align-items: start;
-    gap: 14px 22px;
+    /* Tightens row spacing while retaining the desktop column gap. */
+    gap: 6px 22px;
     padding-top: 22px;
   }
 
@@ -119,8 +120,9 @@ button {
     overscroll-behavior: contain;
   }
 
-  .dashboard__greeting {
-    padding-top: 0;
+  /* Reduces the gap below the greeting while keeping it comfortably spaced. */
+  .dashboard .dashboard__greeting {
+    padding-block: 10px 6px;
   }
 
   .dashboard__main {
