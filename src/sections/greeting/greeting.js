@@ -59,7 +59,16 @@ export function renderGreeting() {
 
   // Shows the saved name initially and reacts to the name dialog event.
   updateGreetingName();
-  window.addEventListener(config.events.userNameSaved, updateGreetingName);
+
+  // Updates the greeting and animates it once after the first name is saved.
+  window.addEventListener(
+    config.events.userNameSaved,
+    () => {
+      updateGreetingName();
+      section.classList.add("greeting--name-confirmed");
+    },
+    { once: true },
+  );
 
   section.querySelector(".greeting__tagline").textContent = config.text.tagline;
   section.querySelector(".greeting__date-label").textContent =
