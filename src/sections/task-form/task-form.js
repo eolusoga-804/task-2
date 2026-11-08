@@ -73,6 +73,20 @@ export function renderTaskForm() {
   const titleInput = section.querySelector(".task-form__title");
   const feedback = section.querySelector(".task-form__feedback");
 
+  // Opens the native date picker when the calendar field is clicked.
+  const dateField = section.querySelector(".task-form__date-field");
+  const dateInput = section.querySelector(".task-form__date");
+
+  dateField.addEventListener("click", (event) => {
+    if (event.target === dateInput) return;
+
+    if (typeof dateInput.showPicker === "function") {
+      dateInput.showPicker();
+    } else {
+      dateInput.focus();
+    }
+  });
+
   // Validates and saves the task, then resets the form on success.
   form.addEventListener("submit", (event) => {
     event.preventDefault();

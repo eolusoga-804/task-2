@@ -115,6 +115,7 @@
   opacity: 0;
   color-scheme: dark;
   cursor: pointer;
+  pointer-events: none;
 }
 
 .task-form__submit {
