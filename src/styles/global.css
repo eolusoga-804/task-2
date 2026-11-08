@@ -74,7 +74,8 @@ button {
     "sidebar"
     "main";
   gap: 12px;
-  padding-block: 18px 40px;
+  /* Leaves three times the previous 40px breathing room before the footer. */
+  padding-block: 18px 120px;
 }
 
 .dashboard__greeting {
