@@ -16,7 +16,6 @@ export function renderGreeting() {
         ? config.greetings.afternoon
         : config.greetings.evening;
 
-  const name = getUserName() || config.greetings.fallbackName;
   const now = new Date();
   const formattedDate = new Intl.DateTimeFormat(config.locale, {
     month: "short",
@@ -51,7 +50,17 @@ export function renderGreeting() {
 
   // Inserts dynamic text safely without treating the saved name as markup.
   section.querySelector(".greeting__salutation").textContent = `${greeting},`;
-  section.querySelector(".greeting__name").textContent = `${name}!`;
+
+  // Updates the greeting immediately after the first-visit name is saved.
+  function updateGreetingName() {
+    const name = getUserName() || config.greetings.fallbackName;
+    section.querySelector(".greeting__name").textContent = `${name}!`;
+  }
+
+  // Shows the saved name initially and reacts to the name dialog event.
+  updateGreetingName();
+  window.addEventListener(config.events.userNameSaved, updateGreetingName);
+
   section.querySelector(".greeting__tagline").textContent = config.text.tagline;
   section.querySelector(".greeting__date-label").textContent =
     config.greetings.dateLabel;
