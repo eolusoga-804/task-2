@@ -6,7 +6,8 @@ import "./task-form.css";
 export function renderTaskForm() {
   const section = document.createElement("details");
   section.className = "task-form";
-  section.open = window.matchMedia("(min-width: 700px)").matches;
+  // Starts the task form open on every page load.
+  section.open = true;
 
   const categoryOptions = config.categories
     .map(
@@ -49,8 +50,8 @@ export function renderTaskForm() {
       </label>
 
       <button class="task-form__submit" type="submit">
+        <i class="fi fi-rr-plus task-form__submit-icon" aria-hidden="true"></i>
         <span>${config.taskForm.submitLabel}</span>
-        <i class="fi fi-rr-angle-small-right" aria-hidden="true"></i>
       </button>
 
       <p class="task-form__feedback" role="status" aria-live="polite"></p>
