@@ -245,6 +245,11 @@
     max-width: 95px;
   }
 
+  /* Caps only the desktop date control at 95px. */
+  .task-form__date-field {
+    max-width: 95px;
+  }
+
   .task-form__submit {
     min-width: 105px;
     padding-inline: 12px;
