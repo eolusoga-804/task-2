@@ -232,9 +232,8 @@
   }
 
   .task-form__fields {
-    grid-template-columns:
-      minmax(120px, 1.3fr) minmax(120px, 1.4fr)
-      minmax(90px, 1fr) minmax(125px, 1.1fr) auto;
+    /* Gives capped fields fixed tracks and lets description fill remaining space. */
+    grid-template-columns: 205px minmax(120px, 1fr) 95px 95px auto;
     align-items: start;
     padding: 0;
   }
