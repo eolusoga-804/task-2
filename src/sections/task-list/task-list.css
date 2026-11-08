@@ -39,12 +39,13 @@
   list-style: none;
 }
 
+/* Keeps each task's title and actions aligned within a compact card. */
 .task-item {
   display: grid;
   min-height: 62px;
-  grid-template-columns: 22px auto minmax(0, 1fr);
+  grid-template-columns: 22px auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 9px 10px;
+  gap: 8px 9px;
   padding: 10px 11px;
   border: 1px solid var(--color-border);
   border-radius: 11px;
@@ -124,6 +125,7 @@
   line-height: 1.4;
 }
 
+/* Places the due date beneath the task copy on narrow screens. */
 .task-item__due-date {
   grid-column: 3;
   color: var(--color-muted);
@@ -131,11 +133,13 @@
   font-size: 0.62rem;
 }
 
+/* Keeps reorder, edit, and delete actions beside the task title. */
 .task-item__actions {
   display: flex;
-  grid-column: 1 / -1;
+  grid-column: 4;
+  grid-row: 1;
   justify-content: flex-end;
-  gap: 5px;
+  gap: 2px;
 }
 
 .task-item__action {
@@ -196,8 +200,9 @@
   text-decoration-color: #77708b;
 }
 
+/* Gives completion feedback a slower, more noticeable motion. */
 .task-item--just-completed {
-  animation: task-completion 260ms ease-out;
+  animation: task-completion 900ms ease-out;
 }
 
 .task-list__empty {
@@ -331,14 +336,23 @@
   background: #a52a4c;
 }
 
+/* Highlights a task briefly as it changes to completed. */
 @keyframes task-completion {
-  from {
-    background-color: rgb(58 191 131 / 25%);
-    transform: scale(0.99);
+  0% {
+    background-color: rgb(58 191 131 / 36%);
+    box-shadow: 0 0 0 0 rgb(58 191 131 / 30%);
+    transform: scale(0.985);
   }
 
-  to {
+  55% {
+    background-color: rgb(58 191 131 / 14%);
+    box-shadow: 0 0 18px 2px rgb(58 191 131 / 14%);
+    transform: scale(1.006);
+  }
+
+  100% {
     background-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
     transform: scale(1);
   }
 }
@@ -357,6 +371,7 @@
 @media (min-width: 650px) {
   .task-item {
     min-height: 68px;
+    /* Uses dedicated date and action columns when wider rows allow them. */
     grid-template-columns: 22px auto minmax(0, 1fr) minmax(100px, auto) auto;
     gap: 12px;
     padding: 12px 15px;
@@ -366,13 +381,17 @@
     font-size: 0.83rem;
   }
 
+  /* Aligns the date with the task row on wider screens. */
   .task-item__due-date {
-    grid-column: auto;
+    grid-column: 4;
+    grid-row: 1;
     font-size: 0.67rem;
     text-align: right;
   }
 
+  /* Keeps the action group in its own final grid column. */
   .task-item__actions {
-    grid-column: auto;
+    grid-column: 5;
+    grid-row: 1;
   }
 }
