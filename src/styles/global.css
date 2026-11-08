@@ -106,11 +106,17 @@ button {
     padding-top: 22px;
   }
 
-  /* Anchors the sidebar beside the main content while the page scrolls. */
+  /* Pins the left panels to the viewport and keeps their column reserved. */
   .dashboard__sidebar {
-    position: sticky;
+    position: fixed;
+    z-index: 5;
     top: 88px;
+    left: max(16px, calc((100vw - 1140px) / 2));
+    width: 250px;
+    max-height: calc(100vh - 104px);
     align-self: start;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .dashboard__greeting {
