@@ -297,6 +297,14 @@ export function renderTaskList() {
     draggedTaskId = row.dataset.taskId;
     row.classList.add("task-item--dragging");
 
+    // Uses the full task row as the browser's drag preview.
+    const rowBounds = row.getBoundingClientRect();
+    event.dataTransfer.setDragImage(
+      row,
+      event.clientX - rowBounds.left,
+      event.clientY - rowBounds.top,
+    );
+
     event.dataTransfer.setData("text/plain", draggedTaskId);
     event.dataTransfer.effectAllowed = "move";
   });

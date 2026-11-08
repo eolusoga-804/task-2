@@ -164,19 +164,42 @@
   cursor: grabbing;
 }
 
-/* Highlights the dragged task and the target insertion edge. */
+/* Highlights the full task card while dragging and marks its destination. */
 .task-item--dragging {
   border-color: var(--color-accent-bright);
-  opacity: 0.48;
-  transform: scale(0.985);
+  background: rgb(135 60 255 / 14%);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 28%);
+  opacity: 0.72;
+  transform: scale(0.99);
 }
 
-.task-item--drop-before {
-  box-shadow: inset 0 3px var(--color-accent-bright);
-}
-
+.task-item--drop-before,
 .task-item--drop-after {
-  box-shadow: inset 0 -3px var(--color-accent-bright);
+  position: relative;
+  border-color: var(--color-accent-bright);
+  background: rgb(135 60 255 / 10%);
+}
+
+/* Places a bright insertion marker along the destination card edge. */
+.task-item--drop-before::before,
+.task-item--drop-after::after {
+  position: absolute;
+  z-index: 1;
+  right: 8px;
+  left: 8px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-accent-bright);
+  box-shadow: 0 0 12px rgb(135 60 255 / 65%);
+  content: "";
+}
+
+.task-item--drop-before::before {
+  top: -2px;
+}
+
+.task-item--drop-after::after {
+  bottom: -2px;
 }
 
 .task-item__action:hover,
