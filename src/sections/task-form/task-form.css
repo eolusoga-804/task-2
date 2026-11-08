@@ -250,6 +250,11 @@
     max-width: 95px;
   }
 
+  /* Caps only the desktop task title field at 205px. */
+  .task-form__title-field {
+    max-width: 205px;
+  }
+
   .task-form__submit {
     min-width: 105px;
     padding-inline: 12px;
