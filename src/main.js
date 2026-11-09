@@ -35,6 +35,39 @@ const installPrompt = renderInstallPrompt();
 
 app.replaceChildren(header, dashboard, footer, installPrompt);
 
+// Keeps the fixed desktop sidebar above the footer as the page scrolls.
+let sidebarUpdateQueued = false;
+
+function updateSidebarClearance() {
+  if (window.innerWidth < 880) {
+    sidebar.style.removeProperty("max-height");
+    return;
+  }
+
+  const sidebarTop = sidebar.getBoundingClientRect().top;
+  const footerTop = footer.getBoundingClientRect().top;
+  const viewportLimit = window.innerHeight - 168;
+  const footerLimit = footerTop - sidebarTop - 16;
+  const availableHeight = Math.max(0, Math.min(viewportLimit, footerLimit));
+
+  sidebar.style.maxHeight = `${availableHeight}px`;
+}
+
+// Coalesces scroll and resize updates into one frame.
+function scheduleSidebarUpdate() {
+  if (sidebarUpdateQueued) return;
+
+  sidebarUpdateQueued = true;
+  requestAnimationFrame(() => {
+    sidebarUpdateQueued = false;
+    updateSidebarClearance();
+  });
+}
+
+window.addEventListener("scroll", scheduleSidebarUpdate, { passive: true });
+window.addEventListener("resize", scheduleSidebarUpdate);
+scheduleSidebarUpdate();
+
 // Registers the offline app shell in production builds.
 if (import.meta.env.PROD && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {

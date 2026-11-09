@@ -129,13 +129,13 @@ button {
     padding-top: 22px;
   }
 
-  /* Pins the left panels to the viewport and keeps their column reserved. */
+  /* Keeps the sidebar out of grid sizing while leaving space above the footer. */
   .dashboard__sidebar {
-    /* Keeps the sidebar visible through the dashboard and lets it stop before the footer. */
-    position: sticky;
+    position: fixed;
     z-index: 5;
     top: 88px;
-    width: 100%;
+    left: max(16px, calc((100vw - 1140px) / 2));
+    width: 250px;
     max-height: calc(100vh - 168px);
     align-self: start;
     overflow-y: auto;
