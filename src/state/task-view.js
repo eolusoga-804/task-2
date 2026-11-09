@@ -8,6 +8,8 @@ export const taskView = {
   categoryId: "all",
   // Keeps drag-and-drop order as the initial list order after reload.
   sort: "manual",
+  // Reverses the selected sort while keeping its default order unchanged.
+  sortReversed: false,
 };
 
 // Notifies the task list and controls when the view settings change.
@@ -45,13 +47,20 @@ export function setCategoryFilter(categoryId) {
   notifyViewChange();
 }
 
-// Sets a configured task sort order.
+// Sets a configured sort order and restores its default direction.
 export function setTaskSort(sort) {
   const isKnownSort = config.sortOptions.some((option) => option.id === sort);
 
   if (!isKnownSort) return;
 
   taskView.sort = sort;
+  taskView.sortReversed = false;
+  notifyViewChange();
+}
+
+// Reverses the selected sort order.
+export function toggleTaskSortDirection() {
+  taskView.sortReversed = !taskView.sortReversed;
   notifyViewChange();
 }
 
@@ -99,22 +108,31 @@ export function getVisibleTasks() {
     return matchesStatus && matchesCategory && matchesSearch;
   });
 
-  // Leaves the filtered task array in its persisted order.
-  if (taskView.sort === "manual") return visibleTasks;
+  // Reverses manual order without changing the stored task array.
+  if (taskView.sort === "manual") {
+    return taskView.sortReversed ? [...visibleTasks].reverse() : visibleTasks;
+  }
+
+  // Applies the selected sort and reverses its comparison when requested.
+  const direction = taskView.sortReversed ? -1 : 1;
 
   return [...visibleTasks].sort((first, second) => {
     if (taskView.sort === "title") {
-      return first.title.localeCompare(second.title, config.locale, {
-        sensitivity: "base",
-      });
+      return (
+        first.title.localeCompare(second.title, config.locale, {
+          sensitivity: "base",
+        }) * direction
+      );
     }
 
     if (taskView.sort === "due-date") {
-      if (!first.dueDate) return second.dueDate ? 1 : 0;
-      if (!second.dueDate) return -1;
-      return first.dueDate.localeCompare(second.dueDate);
+      if (!first.dueDate) return (second.dueDate ? 1 : 0) * direction;
+      if (!second.dueDate) return -1 * direction;
+      return first.dueDate.localeCompare(second.dueDate) * direction;
     }
 
-    return (second.createdAt ?? "").localeCompare(first.createdAt ?? "");
+    return (
+      (second.createdAt ?? "").localeCompare(first.createdAt ?? "") * direction
+    );
   });
 }

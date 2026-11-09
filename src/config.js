@@ -118,6 +118,8 @@ export const config = {
     categoryLabel: "Filter tasks by category",
     allCategoriesLabel: "All categories",
     sortLabel: "Sort tasks",
+    // Labels the control that reverses the selected task order.
+    reverseSortLabel: "Reverse sort order",
     categoryHeading: "Categories",
     sidebarLabel: "Productivity and task panels",
     // Stores the Flaticon classes used by the three sidebar panels.

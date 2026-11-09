@@ -90,6 +90,33 @@
   font-size: 0.68rem;
 }
 
+/* Keeps the direction toggle compact beside the selected sort option. */
+.task-controls__sort-direction {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.task-controls__sort-direction:hover,
+.task-controls__sort-direction:focus-visible {
+  background: rgb(135 60 255 / 14%);
+  color: var(--color-accent-bright);
+}
+
+.task-controls__sort-direction:focus-visible {
+  outline: 2px solid var(--color-accent-bright);
+  outline-offset: 2px;
+}
+
 .task-controls__sort-select option {
   background: var(--color-panel);
   color: var(--color-text);

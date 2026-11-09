@@ -6,6 +6,7 @@ import {
   setTaskSort,
   setTaskStatus,
   taskView,
+  toggleTaskSortDirection,
 } from "../../state/task-view.js";
 import "./task-controls.css";
 
@@ -44,11 +45,27 @@ export function renderTaskControls() {
         ${statusButtons}
       </div>
 
-      <label class="task-controls__sort">
-        <span class="visually-hidden">${config.taskControls.sortLabel}</span>
+      <div class="task-controls__sort">
         <i class="fi fi-rr-sort" aria-hidden="true"></i>
-        <select class="task-controls__sort-select">${sortOptions}</select>
-      </label>
+        <label class="visually-hidden" for="task-sort-select">
+          ${config.taskControls.sortLabel}
+        </label>
+        <select
+          class="task-controls__sort-select"
+          id="task-sort-select"
+          aria-label="${config.taskControls.sortLabel}"
+        >
+          ${sortOptions}
+        </select>
+        <button
+          class="task-controls__sort-direction"
+          type="button"
+          aria-label="${config.taskControls.reverseSortLabel}"
+          aria-pressed="false"
+        >
+          <i class="fi fi-rr-sort-amount-up" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
   `;
 
@@ -64,6 +81,17 @@ export function renderTaskControls() {
     });
 
     section.querySelector(".task-controls__sort-select").value = taskView.sort;
+
+    // Reflects reversed order in both the button state and arrow direction.
+    const directionButton = section.querySelector(
+      ".task-controls__sort-direction",
+    );
+    const directionIcon = directionButton.querySelector(".fi");
+
+    directionButton.setAttribute("aria-pressed", String(taskView.sortReversed));
+    directionIcon.className = taskView.sortReversed
+      ? "fi fi-rr-sort-amount-down"
+      : "fi fi-rr-sort-amount-up";
   }
 
   // Applies the selected status filter.
@@ -78,6 +106,11 @@ export function renderTaskControls() {
     .addEventListener("change", (event) => {
       setTaskSort(event.target.value);
     });
+
+  // Toggles the selected sort between its normal and reversed order.
+  section
+    .querySelector(".task-controls__sort-direction")
+    .addEventListener("click", toggleTaskSortDirection);
 
   updateControls();
   window.addEventListener(config.events.viewChanged, updateControls);
