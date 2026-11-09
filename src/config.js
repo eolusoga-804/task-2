@@ -92,6 +92,8 @@ export const config = {
     heading: "Your tasks",
     countLabel: "tasks",
     noDueDate: "No due date",
+    // Labels active tasks whose due dates have passed.
+    overdueLabel: "This task is overdue",
     markComplete: "Mark task complete",
     markActive: "Mark task active",
     emptyMessage: "No tasks yet. Add one above to get started.",

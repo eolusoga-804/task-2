@@ -167,6 +167,20 @@ export function renderTaskList() {
     }).format(date);
   }
 
+  // Checks date-only due values against today's local calendar date.
+  function isTaskOverdue(task) {
+    if (!task.dueDate || task.completed) return false;
+
+    const today = new Date();
+    const todayKey = [
+      today.getFullYear(),
+      String(today.getMonth() + 1).padStart(2, "0"),
+      String(today.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    return task.dueDate < todayKey;
+  }
+
   // Builds one accessible task row using text nodes for user-entered titles.
   function createTaskRow(task, animateCompletion = false) {
     const category = config.categories.find(
@@ -178,6 +192,10 @@ export function renderTaskList() {
     const row = document.createElement("li");
     row.className = "task-item";
     row.dataset.taskId = task.id;
+
+    // Highlights active tasks whose due dates have passed.
+    const overdue = isTaskOverdue(task);
+    if (overdue) row.classList.add("task-item--overdue");
 
     if (task.completed) row.classList.add("task-item--completed");
     if (animateCompletion && task.completed) {
@@ -215,7 +233,19 @@ export function renderTaskList() {
 
     const dueDate = document.createElement("time");
     dueDate.className = "task-item__due-date";
-    dueDate.textContent = formatDueDate(task.dueDate);
+
+    // Adds an explicit overdue label while keeping the due date readable.
+    const formattedDueDate = formatDueDate(task.dueDate);
+    dueDate.textContent = overdue
+      ? `${config.taskList.overdueLabel} · ${formattedDueDate}`
+      : formattedDueDate;
+
+    if (overdue) {
+      dueDate.setAttribute(
+        "aria-label",
+        `${config.taskList.overdueLabel}: ${formattedDueDate}`,
+      );
+    }
 
     if (task.dueDate) dueDate.dateTime = task.dueDate;
 

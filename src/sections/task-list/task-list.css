@@ -60,6 +60,18 @@
   border-color: #40355e;
 }
 
+/* Gives overdue task cards a subtle warning edge and tinted background. */
+.task-item--overdue {
+  border-color: #70404b;
+  background: linear-gradient(115deg, #19101a, #100d17);
+  box-shadow: inset 3px 0 #d86b7a;
+}
+
+.task-item--overdue .task-item__due-date {
+  color: #ff9aa7;
+  font-weight: 700;
+}
+
 .task-item__checkbox {
   width: 19px;
   height: 19px;
