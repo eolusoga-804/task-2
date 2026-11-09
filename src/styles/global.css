@@ -69,6 +69,8 @@ button {
 /* Places the sidebar beside the task workspace on wider screens. */
 .dashboard {
   display: grid;
+  /* Keeps the mobile dashboard column within the app container. */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     "greeting"
     "sidebar"
@@ -89,6 +91,8 @@ button {
 
 .dashboard__main {
   display: grid;
+  /* Prevents task form, controls, and list tracks from widening the workspace. */
+  grid-template-columns: minmax(0, 1fr);
   min-width: 0;
   grid-area: main;
   align-content: start;
