@@ -131,12 +131,11 @@ button {
 
   /* Pins the left panels to the viewport and keeps their column reserved. */
   .dashboard__sidebar {
-    position: fixed;
+    /* Keeps the sidebar visible through the dashboard and lets it stop before the footer. */
+    position: sticky;
     z-index: 5;
     top: 88px;
-    left: max(16px, calc((100vw - 1140px) / 2));
-    width: 250px;
-    /* Leaves room for the footer below the fixed desktop sidebar. */
+    width: 100%;
     max-height: calc(100vh - 168px);
     align-self: start;
     overflow-y: auto;
