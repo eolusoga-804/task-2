@@ -118,6 +118,13 @@ button {
 }
 
 @media (min-width: 880px) {
+  /* Lets the desktop app shell fill the viewport height. */
+  #app {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
   .dashboard {
     grid-template-columns: minmax(210px, 250px) minmax(0, 1fr);
     grid-template-areas:
@@ -127,6 +134,8 @@ button {
     /* Tightens row spacing while retaining the desktop column gap. */
     gap: 6px 22px;
     padding-top: 22px;
+    /* Lets short dashboards expand and push the footer to the viewport bottom. */
+    flex: 1 0 auto;
   }
 
   /* Keeps the sidebar out of grid sizing while leaving space above the footer. */
