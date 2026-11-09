@@ -131,6 +131,8 @@ button {
       "sidebar greeting"
       "sidebar main";
     align-items: start;
+    /* Keeps dashboard grid rows compact as the dashboard fills the viewport. */
+    align-content: start;
     /* Tightens row spacing while retaining the desktop column gap. */
     gap: 6px 22px;
     padding-top: 22px;
