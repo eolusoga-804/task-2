@@ -21,7 +21,12 @@ dashboard.id = "main-content";
 greeting.classList.add("dashboard__greeting");
 taskWorkspace.className = "dashboard__main";
 
-taskWorkspace.append(renderTaskForm(), renderTaskControls(), renderTaskList());
+// Groups task entry and filtering controls so they can stick together.
+const taskToolbar = document.createElement("div");
+taskToolbar.className = "dashboard__task-toolbar";
+taskToolbar.append(renderTaskForm(), renderTaskControls());
+
+taskWorkspace.append(taskToolbar, renderTaskList());
 
 dashboard.append(greeting, sidebar, taskWorkspace);
 

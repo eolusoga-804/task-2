@@ -95,6 +95,24 @@ button {
   gap: 10px;
 }
 
+/* Keeps task entry and controls beneath the header while the list scrolls. */
+@media (min-width: 700px) {
+  .dashboard__task-toolbar {
+    position: sticky;
+    z-index: 9;
+    top: 73px;
+    display: grid;
+    gap: 10px;
+    padding-block: 8px;
+    background: var(--color-bg);
+  }
+
+  /* Uses the toolbar gap instead of the form's standalone bottom margin. */
+  .dashboard__task-toolbar .task-form {
+    margin-bottom: 0;
+  }
+}
+
 @media (min-width: 880px) {
   .dashboard {
     grid-template-columns: minmax(210px, 250px) minmax(0, 1fr);
