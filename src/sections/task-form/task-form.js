@@ -77,17 +77,11 @@ export function renderTaskForm() {
         <i class="fi fi-rr-plus task-form__submit-icon" aria-hidden="true"></i>
         <span>${config.taskForm.submitLabel}</span>
       </button>
-
-      <p class="task-form__feedback" role="status" aria-live="polite"></p>
     </form>
   `;
 
   const form = section.querySelector("form");
   const titleInput = section.querySelector(".task-form__title");
-  const feedback = section.querySelector(".task-form__feedback");
-
-  // Opens the native date picker when the calendar field is clicked.
-  const dateField = section.querySelector(".task-form__date-field");
 
   // Opens the picker from one button and returns focus there after selection.
   const dateButton = section.querySelector(".task-form__date-button");
@@ -130,15 +124,14 @@ export function renderTaskForm() {
       dueDate: formData.get("dueDate"),
     });
 
+    // Reports a failed save through the popup after removing inline feedback.
     if (!task) {
-      feedback.textContent = config.text.taskSaveError;
+      showNotification(config.text.taskSaveError);
       return;
     }
 
     form.reset();
 
-    // Confirms task creation in the popup instead of the inline status.
-    feedback.textContent = "";
     showNotification(config.text.taskAdded);
 
     titleInput.focus();
