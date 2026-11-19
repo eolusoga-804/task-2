@@ -141,14 +141,18 @@
   min-height: 44px;
   align-items: center;
   justify-content: center;
-  gap: 8px;
   border: 0;
   border-radius: 9px;
   background: linear-gradient(110deg, #923cff, #6f28db);
   color: white;
   cursor: pointer;
-  font-size: 0.82rem;
   font-weight: 800;
+  /* Matches the Add Task button width to the category and date controls. */
+  width: 100%;
+  min-width: 0;
+  gap: 4px;
+  padding-inline: 4px;
+  font-size: 0.75rem;
 }
 
 /* Makes the creation icon prominent inside the Add Task button. */
@@ -237,8 +241,8 @@
   }
 
   .task-form__fields {
-    /* Sets the title track 30% wider than the description track. */
-    grid-template-columns: 195px 150px 95px 95px auto;
+    /* Splits remaining space at a 1.3-to-1 title and description ratio. */
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) 95px 95px 95px;
     align-items: start;
     padding: 0;
   }
@@ -252,11 +256,6 @@
   /* Caps only the desktop date control at 95px. */
   .task-form__date-field {
     max-width: 95px;
-  }
-
-  /* Caps only the desktop task title field at 205px. */
-  .task-form__title-field {
-    max-width: 205px;
   }
 
   .task-form__submit {
