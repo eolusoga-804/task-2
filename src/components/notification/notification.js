@@ -1,41 +1,47 @@
 // Renders and controls short, accessible task notifications.
 import "./notification.css";
 
+let notificationBackdrop;
 let notificationElement;
 let dismissalTimer;
 let hideTimer;
 
 export function renderNotification() {
-  // Creates the live region used for task alerts.
+  // Creates a full-screen layer that blurs the interface behind the alert.
+  notificationBackdrop = document.createElement("div");
+  notificationBackdrop.className = "app-notification-backdrop";
+  notificationBackdrop.hidden = true;
+
+  // Creates the centered live region that displays the task message.
   notificationElement = document.createElement("div");
   notificationElement.className = "app-notification";
   notificationElement.setAttribute("role", "status");
   notificationElement.setAttribute("aria-live", "polite");
-  notificationElement.hidden = true;
+  notificationBackdrop.append(notificationElement);
 
-  return notificationElement;
+  return notificationBackdrop;
 }
 
 export function showNotification(message) {
-  if (!notificationElement) return;
+  if (!notificationElement || !notificationBackdrop) return;
 
-  // Replaces any current message and restarts its display timer.
+  // Replaces the current message and restarts its display timer.
   window.clearTimeout(dismissalTimer);
   window.clearTimeout(hideTimer);
   notificationElement.textContent = message;
-  notificationElement.hidden = false;
-  notificationElement.classList.remove("app-notification--visible");
+  notificationBackdrop.hidden = false;
+  notificationBackdrop.classList.remove("app-notification-backdrop--visible");
 
-  // Starts the entrance transition after the notification becomes visible.
+  // Starts the backdrop and popup entrance transitions after display.
   requestAnimationFrame(() => {
-    notificationElement.classList.add("app-notification--visible");
+    notificationBackdrop.classList.add("app-notification-backdrop--visible");
   });
 
-  // Hides the notification after a brief display.
+  // Fades the popup and blurred backdrop out after a short delay.
   dismissalTimer = window.setTimeout(() => {
-    notificationElement.classList.remove("app-notification--visible");
+    notificationBackdrop.classList.remove("app-notification-backdrop--visible");
     hideTimer = window.setTimeout(() => {
-      notificationElement.hidden = true;
+      notificationBackdrop.hidden = true;
     }, 180);
   }, 2600);
 }
