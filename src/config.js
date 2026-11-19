@@ -38,6 +38,12 @@ export const config = {
       "This browser could not save the task. Check localStorage settings.",
     taskTitleRequired: "Enter a task title.",
     taskUpdated: "Task updated and saved.",
+    // Formats concise before-and-after values in the task edit popup.
+    taskEdited: "Updated task: {changes}",
+    taskEditChangeArrow: " → ",
+    taskEditSeparator: "; ",
+    taskEditEmptyValue: "empty",
+    taskEditPreviewLimit: 32,
     // Includes the deleted task title in its popup message.
     taskDeleted: "Deleted: {title}",
     taskUpdateError: "This browser could not save your changes.",

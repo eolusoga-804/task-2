@@ -8,8 +8,9 @@ import {
   updateTask,
 } from "../../state/tasks.js";
 import { getVisibleTasks, setTaskSort } from "../../state/task-view.js";
-// Loads the popup used to confirm task deletion.
+// Loads the popup used to confirm task deletion and summarize successful task edits.
 import { showNotification } from "../../components/notification/notification.js";
+
 import "./task-list.css";
 
 export function renderTaskList() {
@@ -475,16 +476,20 @@ export function renderTaskList() {
   });
 
   // Saves edited task details and closes the dialog on success.
+  // Saves edits and reports changed values in the popup.
   editForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const formData = new FormData(editForm);
-    const saved = updateTask(editForm.dataset.taskId, {
+    const taskId = editForm.dataset.taskId;
+    const previousTask = tasks.find((task) => task.id === taskId);
+    const changes = {
       title: formData.get("title"),
       description: formData.get("description"),
       categoryId: formData.get("categoryId"),
       dueDate: formData.get("dueDate"),
-    });
+    };
+    const saved = updateTask(taskId, changes);
 
     if (!saved) {
       editForm.querySelector(".task-dialog__feedback").textContent =
@@ -492,7 +497,53 @@ export function renderTaskList() {
       return;
     }
 
+    // Finds the updated record after the state has been saved.
+    const updatedTask = tasks.find((task) => task.id === taskId);
+    const getCategoryLabel = (categoryId) =>
+      config.categories.find((category) => category.id === categoryId)?.label ??
+      categoryId;
+
+    // Compares all editable fields and formats only values that changed.
+    const changedFields = [
+      [config.taskForm.titleLabel, previousTask.title, updatedTask.title],
+      [
+        config.taskForm.descriptionLabel,
+        previousTask.description ?? "",
+        updatedTask.description ?? "",
+      ],
+      [
+        config.taskForm.categoryLabel,
+        getCategoryLabel(previousTask.categoryId),
+        getCategoryLabel(updatedTask.categoryId),
+      ],
+      [
+        config.taskForm.dueDateLabel,
+        formatDueDate(previousTask.dueDate),
+        formatDueDate(updatedTask.dueDate),
+      ],
+    ].filter(([, before, after]) => before !== after);
+
+    // Shortens long values so the popup remains easy to scan.
+    const previewValue = (value) => {
+      const text = value || config.text.taskEditEmptyValue;
+      const limit = config.text.taskEditPreviewLimit;
+
+      return text.length > limit ? `${text.slice(0, limit)}…` : text;
+    };
+
+    const changesSummary = changedFields
+      .map(
+        ([label, before, after]) =>
+          `${label}: ${previewValue(before)}${config.text.taskEditChangeArrow}${previewValue(after)}`,
+      )
+      .join(config.text.taskEditSeparator);
+
     editDialog.close();
+    showNotification(
+      changesSummary
+        ? config.text.taskEdited.replace("{changes}", changesSummary)
+        : config.text.taskUpdated,
+    );
     heading.focus();
   });
 
