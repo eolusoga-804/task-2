@@ -232,8 +232,8 @@
   }
 
   .task-form__fields {
-    /* Gives capped fields fixed tracks and lets description fill remaining space. */
-    grid-template-columns: 205px minmax(120px, 1fr) 95px 95px auto;
+    /* Sets the title track 30% wider than the description track. */
+    grid-template-columns: 195px 150px 95px 95px auto;
     align-items: start;
     padding: 0;
   }
