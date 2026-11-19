@@ -8,6 +8,8 @@ import {
   updateTask,
 } from "../../state/tasks.js";
 import { getVisibleTasks, setTaskSort } from "../../state/task-view.js";
+// Loads the popup used to confirm task deletion.
+import { showNotification } from "../../components/notification/notification.js";
 import "./task-list.css";
 
 export function renderTaskList() {
@@ -131,6 +133,9 @@ export function renderTaskList() {
   const editForm = section.querySelector('[data-form="edit"]');
   const editCategory = editForm.elements.categoryId;
   let pendingDeleteId = "";
+
+  // Retains the task title for the deletion confirmation popup.
+  let pendingDeleteTitle = "";
 
   // Sets shared headings, labels, and category choices from app configuration.
   heading.textContent = config.taskList.heading;
@@ -459,6 +464,10 @@ export function renderTaskList() {
 
     if (actionButton.dataset.action === "delete") {
       pendingDeleteId = task.id;
+
+      // Keeps the task title available after the task is removed from state.
+      pendingDeleteTitle = task.title;
+
       section.querySelector("[data-delete-title]").textContent = task.title;
       section.querySelector("[data-delete-feedback]").textContent = "";
       deleteDialog.showModal();
@@ -501,6 +510,13 @@ export function renderTaskList() {
 
       pendingDeleteId = "";
       deleteDialog.close();
+
+      // Confirms deletion and identifies the task that was removed.
+      showNotification(
+        config.text.taskDeleted.replace("{title}", pendingDeleteTitle),
+      );
+      pendingDeleteTitle = "";
+
       heading.focus();
     });
 
