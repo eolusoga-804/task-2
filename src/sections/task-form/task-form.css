@@ -106,7 +106,7 @@
   padding-inline: 0;
 }
 
-/* Makes the calendar icon a full-size, keyboard-accessible control. */
+/* Gives the calendar control clear hover, focus, and press feedback. */
 .task-form__date-button {
   display: grid;
   width: 100%;
@@ -117,11 +117,25 @@
   background: transparent;
   color: var(--color-accent-bright);
   cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 120ms ease;
+}
+
+.task-form__date-button:hover {
+  background: rgb(135 60 255 / 16%);
+  color: #d3b4ff;
 }
 
 .task-form__date-button:focus-visible {
   outline: 2px solid var(--color-accent-bright);
   outline-offset: -3px;
+  background: rgb(135 60 255 / 18%);
+}
+
+.task-form__date-button:active {
+  transform: scale(0.94);
 }
 
 /* Makes the labeled date input cover the icon while hiding its native UI. */
@@ -136,34 +150,59 @@
   pointer-events: none;
 }
 
+/* Styles the Add Task control with a clear accent, hover, and focus state. */
 .task-form__submit {
   display: flex;
+  width: 100%;
+  min-width: 0;
   min-height: 44px;
   align-items: center;
   justify-content: center;
-  border: 0;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid transparent;
   border-radius: 9px;
-  background: linear-gradient(110deg, #923cff, #6f28db);
-  color: white;
+  background: linear-gradient(115deg, #a64bff, #6f28db);
+  color: #fff;
+  box-shadow: 0 5px 16px rgb(111 40 219 / 22%);
   cursor: pointer;
+  font-size: 0.82rem;
   font-weight: 800;
-  /* Matches the Add Task button width to the category and date controls. */
-  width: 100%;
-  min-width: 0;
-  gap: 4px;
-  padding-inline: 4px;
-  font-size: 0.75rem;
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease,
+    transform 120ms ease;
 }
 
-/* Makes the creation icon prominent inside the Add Task button. */
+/* Keeps the add icon prominent and aligned with its label. */
 .task-form__submit-icon {
-  font-size: 1.2rem;
+  flex: 0 0 auto;
+  font-size: 1.15rem;
   font-weight: 900;
   line-height: 1;
 }
 
+/* Brightens the button on hover and provides a visible keyboard focus. */
 .task-form__submit:hover {
-  filter: brightness(1.12);
+  background: linear-gradient(115deg, #b46aff, #813be8);
+  box-shadow: 0 7px 20px rgb(111 40 219 / 34%);
+}
+
+.task-form__submit:focus-visible {
+  outline: 2px solid #d3b4ff;
+  outline-offset: 3px;
+}
+
+/* Adds a small press response without changing the button's layout. */
+.task-form__submit:active {
+  transform: scale(0.98);
+}
+
+/* Shows that task creation is unavailable if the button is disabled. */
+.task-form__submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+  box-shadow: none;
 }
 
 .visually-hidden {
@@ -258,8 +297,16 @@
     max-width: 95px;
   }
 
+  /* Matches the Add Task button to the 95px category and date controls. */
   .task-form__submit {
-    min-width: 105px;
-    padding-inline: 12px;
+    width: 100%;
+    min-width: 0;
+    gap: 4px;
+    padding-inline: 3px;
+    font-size: 0.72rem;
+  }
+
+  .task-form__submit-icon {
+    font-size: 1rem;
   }
 }
