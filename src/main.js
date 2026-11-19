@@ -7,6 +7,8 @@ import { renderTaskControls } from "./sections/task-controls/task-controls.js";
 import { renderTaskList } from "./sections/task-list/task-list.js";
 import { renderFooter } from "./components/footer/footer.js";
 import { renderInstallPrompt } from "./components/install-prompt/install-prompt.js";
+// Loads the reusable task notification popup.
+import { renderNotification } from "./components/notification/notification.js";
 import "./styles/global.css";
 
 const app = document.querySelector("#app");
@@ -33,7 +35,10 @@ dashboard.append(greeting, sidebar, taskWorkspace);
 const footer = renderFooter();
 const installPrompt = renderInstallPrompt();
 
-app.replaceChildren(header, dashboard, footer, installPrompt);
+// Creates the notification live region before task actions can use it.
+const notification = renderNotification();
+
+app.replaceChildren(header, dashboard, footer, installPrompt, notification);
 
 // Keeps the fixed desktop sidebar above the footer as the page scrolls.
 let sidebarUpdateQueued = false;

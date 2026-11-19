@@ -1,6 +1,8 @@
 // Renders the responsive task form and saves submitted tasks.
 import { config } from "../../config.js";
 import { addTask } from "../../state/tasks.js";
+// Loads the popup used for successful task creation.
+import { showNotification } from "../../components/notification/notification.js";
 import "./task-form.css";
 
 export function renderTaskForm() {
@@ -113,7 +115,11 @@ export function renderTaskForm() {
     }
 
     form.reset();
-    feedback.textContent = config.text.taskAdded;
+
+    // Confirms task creation in the popup instead of the inline status.
+    feedback.textContent = "";
+    showNotification(config.text.taskAdded);
+
     titleInput.focus();
   });
 
