@@ -2,6 +2,24 @@
 import { config } from "../config.js";
 import { recordActivity } from "./activity.js";
 
+// Capitalizes only the first letter while preserving the user's remaining casing.
+function normalizeTaskTitle(title) {
+  const characters = [...(typeof title === "string" ? title.trim() : "")];
+  const firstLetterIndex = characters.findIndex(
+    (character) =>
+      character.toLocaleLowerCase(config.locale) !==
+      character.toLocaleUpperCase(config.locale),
+  );
+
+  if (firstLetterIndex < 0) return characters.join("");
+
+  characters[firstLetterIndex] = characters[firstLetterIndex].toLocaleUpperCase(
+    config.locale,
+  );
+
+  return characters.join("");
+}
+
 export let tasks = loadFromLocalStorage();
 
 // Loads valid task records from localStorage.
@@ -12,14 +30,20 @@ export function loadFromLocalStorage() {
 
     if (!Array.isArray(parsed)) return [];
 
-    return parsed.filter(
-      (task) =>
-        task &&
-        typeof task.id === "string" &&
-        typeof task.title === "string" &&
-        typeof task.categoryId === "string" &&
-        typeof task.completed === "boolean",
-    );
+    // Normalizes existing saved task titles when loading them into the UI.
+    return parsed
+      .filter(
+        (task) =>
+          task &&
+          typeof task.id === "string" &&
+          typeof task.title === "string" &&
+          typeof task.categoryId === "string" &&
+          typeof task.completed === "boolean",
+      )
+      .map((task) => ({
+        ...task,
+        title: normalizeTaskTitle(task.title),
+      }));
   } catch {
     return [];
   }
@@ -37,7 +61,9 @@ export function saveToLocalStorage() {
 
 // Creates and persists a task in the selected category.
 export function addTask({ title, description, categoryId, dueDate }) {
-  const cleanTitle = typeof title === "string" ? title.trim() : "";
+  // Capitalizes the first letter of newly created task titles.
+  const cleanTitle = normalizeTaskTitle(title);
+
   // Trims the optional description while allowing it to be empty.
   const cleanDescription =
     typeof description === "string" ? description.trim() : "";
@@ -112,7 +138,10 @@ export function toggleTaskCompletion(id, completed) {
 export function updateTask(id, changes) {
   const previousTasks = tasks;
   const existingTask = tasks.find((task) => task.id === id);
-  const title = typeof changes?.title === "string" ? changes.title.trim() : "";
+
+  // Applies the same first-letter capitalization when editing a title.
+  const title = normalizeTaskTitle(changes?.title);
+
   // Keeps an omitted or blank description optional when editing older tasks.
   const description =
     typeof changes?.description === "string" ? changes.description.trim() : "";
