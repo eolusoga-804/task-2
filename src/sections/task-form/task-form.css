@@ -67,7 +67,7 @@
 }
 
 .task-form__title-icon,
-.task-form__date-field > .fi-rr-calendar {
+.task-form__date-button > .fi-rr-calendar {
   flex: 0 0 auto;
   color: var(--color-accent-bright);
 }
@@ -104,6 +104,24 @@
   position: relative;
   justify-content: center;
   padding-inline: 0;
+}
+
+/* Makes the calendar icon a full-size, keyboard-accessible control. */
+.task-form__date-button {
+  display: grid;
+  width: 100%;
+  min-height: 42px;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-accent-bright);
+  cursor: pointer;
+}
+
+.task-form__date-button:focus-visible {
+  outline: 2px solid var(--color-accent-bright);
+  outline-offset: -3px;
 }
 
 /* Makes the labeled date input cover the icon while hiding its native UI. */
@@ -181,7 +199,7 @@
   }
 
   /* Scales the calendar icon for compact touch controls. */
-  .task-form__date-field > .fi-rr-calendar {
+  .task-form__date-button > .fi-rr-calendar {
     font-size: 1rem;
     pointer-events: none;
   }

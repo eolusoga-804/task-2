@@ -56,11 +56,22 @@ export function renderTaskForm() {
         </select>
       </label>
 
-      <label class="task-form__date-field">
-        <i class="fi fi-rr-calendar" aria-hidden="true"></i>
-        <span class="visually-hidden">${config.taskForm.dueDateLabel}</span>
-        <input class="task-form__date" name="dueDate" type="date" />
-      </label>
+      <div class="task-form__date-field">
+        <button
+          class="task-form__date-button"
+          type="button"
+          aria-label="${config.taskForm.dueDateLabel}"
+        >
+          <i class="fi fi-rr-calendar" aria-hidden="true"></i>
+        </button>
+        <input
+          class="task-form__date"
+          name="dueDate"
+          type="date"
+          tabindex="-1"
+          aria-hidden="true"
+        />
+      </div>
 
       <button class="task-form__submit" type="submit">
         <i class="fi fi-rr-plus task-form__submit-icon" aria-hidden="true"></i>
@@ -77,16 +88,26 @@ export function renderTaskForm() {
 
   // Opens the native date picker when the calendar field is clicked.
   const dateField = section.querySelector(".task-form__date-field");
+
+  // Opens the picker from one button and returns focus there after selection.
+  const dateButton = section.querySelector(".task-form__date-button");
   const dateInput = section.querySelector(".task-form__date");
 
-  dateField.addEventListener("click", (event) => {
-    if (event.target === dateInput) return;
-
+  dateButton.addEventListener("click", () => {
     if (typeof dateInput.showPicker === "function") {
-      dateInput.showPicker();
+      try {
+        dateInput.showPicker();
+      } catch {
+        dateInput.click();
+      }
     } else {
-      dateInput.focus();
+      dateInput.click();
     }
+  });
+
+  // Keeps keyboard navigation on the single calendar button after a date is chosen.
+  dateInput.addEventListener("change", () => {
+    dateButton.focus();
   });
 
   // Validates and saves the task, then resets the form on success.
