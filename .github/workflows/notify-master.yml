@@ -1,0 +1,23 @@
+
+name: Notify Master Repository
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger master synchronization
+        env:
+          GH_TOKEN: ${{ secrets.MASTER_REPO_TOKEN }}
+        run: |
+          gh api \
+            --method POST \
+            repos/eolusoga-804/Datheon_Full_Stack_Web_Development_Internship/dispatches \
+            -f event_type=sync-projects
